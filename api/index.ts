@@ -8,9 +8,15 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import * as userValidator from '../server/user/middleware';
 import {userRouter} from '../server/user/router';
+import {freetdraftRouter} from '../server/freetdraft/router';
 import {freetRouter} from '../server/freet/router';
 import {downfreetRouter} from '../server/downfreet/router';
+// import {bookmarkRouter} from '../bookmark/router';
+// import {bookmarknestRouter} from '../bookmarknest/router';
+// import {refreetRouter} from '../refreet/router';
+// import {likeRouter} from '../like/router';
 import MongoStore from 'connect-mongo';
+
 
 // Load environmental variables
 dotenv.config({});
@@ -71,7 +77,12 @@ app.use(userValidator.isCurrentSessionUserExists);
 // Add routers from routes folder
 app.use('/api/users', userRouter);
 app.use('/api/freets', freetRouter);
+app.use('/api/freetdrafts', freetdraftRouter);
 app.use('/api/downfreets', downfreetRouter);
+// app.use('/api/bookmarks', bookmarkRouter);
+// app.use('/api/bookmarknests', bookmarknestRouter);
+// app.use('/api/refreets', refreetRouter);
+// app.use('/api/likes', likeRouter);
 
 // Catch all the other routes and display error message
 app.all('*', (req: Request, res: Response) => {
