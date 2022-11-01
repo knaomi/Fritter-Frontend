@@ -19,6 +19,28 @@ const isFreetExists = async (req: Request, res: Response, next: NextFunction) =>
 };
 
 /**
+ * Checks if a freet with freetId is req.query exists
+ */
+ const isFreetQueryExists = async (req: Request, res: Response, next: NextFunction) => {
+  if (!req.query.freet) {
+    res.status(400).json({
+      error: 'Provided freetid must be nonempty.'
+    });
+    return;
+  }
+
+  const  freet = await FreetCollection.findOne(req.query.freet as string);
+  if (!freet) {
+    res.status(404).json({
+      error: `A freet with freetid ${req.query.freet as string} does not exist.`
+    });
+    return;
+  }
+
+  next();
+};
+
+/**
  * Checks if the content of the freet in req.body is valid, i.e not a stream of empty
  * spaces and not more than 140 characters
  */
@@ -60,5 +82,6 @@ const isValidFreetModifier = async (req: Request, res: Response, next: NextFunct
 export {
   isValidFreetContent,
   isFreetExists,
-  isValidFreetModifier
+  isValidFreetModifier,
+  isFreetQueryExists,
 };
