@@ -1,4 +1,4 @@
-<!-- Default page that also displays freets -->
+<!-- Default page that also displays freets & FREETDRAFTS FOR NOW - MAY CHANGE LATER -->
 
 <template>
   <main>
@@ -6,6 +6,35 @@
       <header>
         <h2>Welcome @{{ $store.state.username }}</h2>
       </header>
+      <header>
+        <h2>Freet Draft Section</h2>
+      </header>
+      <CreateFreetDraftForm/>
+       <header>
+          <h3>
+            Viewing all freetdrafts
+          </h3>
+        </header>
+      <section
+        v-if="$store.state.freetdrafts.length"
+      >
+        <FreetDraftComponent
+          v-for="freetdraft in $store.state.freetdrafts"
+          :key="freetdraft.id"
+          :freetdraft="freetdraft"
+        />
+      </section>
+      <article
+        v-else
+      >
+        <h3>No freetdrafts found.</h3>
+      </article>
+
+<!-- BEGIN FREETS -->
+      <header>  <!-- NEW -->
+        <h2>Freet Section</h2>
+      </header>
+
       <CreateFreetForm />
     </section>
     <section v-else>
@@ -63,11 +92,18 @@ import FreetComponent from '@/components/Freet/FreetComponent.vue';
 import CreateFreetForm from '@/components/Freet/CreateFreetForm.vue';
 import GetFreetsForm from '@/components/Freet/GetFreetsForm.vue';
 
+import FreetDraftComponent from '@/components/FreetDraft/FreetDraftComponent.vue';
+import CreateFreetDraftForm from '@/components/FreetDraft/CreateFreetDraftForm.vue';
+import GetFreetDraftsForm from '@/components/FreetDraft/GetFreetDraftsForm.vue';
+
+
 export default {
   name: 'FreetPage',
-  components: {FreetComponent, GetFreetsForm, CreateFreetForm},
+  components: {FreetComponent, GetFreetsForm, CreateFreetForm, 
+              FreetDraftComponent,CreateFreetDraftForm, GetFreetDraftsForm},
   mounted() {
     this.$refs.getFreetsForm.submit();
+    this.$refs.GetFreetDraftsForm.submit();
   }
 };
 </script>

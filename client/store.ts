@@ -11,6 +11,7 @@ const store = new Vuex.Store({
   state: {
     filter: null, // Username to filter shown freets by (null = show all)
     freets: [], // All freets created in the app
+    freetdrafts: [], // all freetdrafts created by the logged in user
     username: null, // Username of the logged in user
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
   },
@@ -45,6 +46,13 @@ const store = new Vuex.Store({
        */
       state.freets = freets;
     },
+    updateFreetDrafts(state, freetdrafts) {
+      /**
+       * Update the stored freetdrafts to the provided freetdrafts.
+       * @param freetdrafts - FreetDrafts to store
+       */
+      state.freetdrafts = freetdrafts;
+    },
     async refreshFreets(state) {
       /**
        * Request the server for the currently available freets.
@@ -52,7 +60,17 @@ const store = new Vuex.Store({
       const url = state.filter ? `/api/users/${state.filter}/freets` : '/api/freets';
       const res = await fetch(url).then(async r => r.json());
       state.freets = res;
+    },
+
+    async refreshFreetDrafts(state) {
+      /**
+       * Request the server for the currently available freetdrafts (by currently logged in user).
+       */
+      const url = '/api/freetdrafts';
+      const res = await fetch(url).then(async r => r.json());
+      state.freetdrafts = res;
     }
+
   },
   // Store data across page refreshes, only discard on browser close
   plugins: [createPersistedState()]
