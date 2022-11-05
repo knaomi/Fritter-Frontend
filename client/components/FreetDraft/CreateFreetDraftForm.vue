@@ -1,11 +1,11 @@
 <!-- Form for creating freetdrafts (block style) -->
 
 <script>
-import BlockDraftForm from '@/components/common/BlockDraftForm.vue';
+import BlockForm from '@/components/common/BlockForm.vue';
 
 export default {
   name: 'CreateFreetDraftForm',
-  mixins: [BlockDraftForm],
+  mixins: [BlockForm],
   data() {
     return {
       url: '/api/freetdrafts',
