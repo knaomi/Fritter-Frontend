@@ -19,11 +19,10 @@ const router = express.Router();
  *  * @throws {403} - If user is not logged in
  */
 
-
 router.get(
   '/',
   [
-    userValidator.isUserLoggedIn,
+    userValidator.isUserLoggedIn
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
@@ -104,7 +103,7 @@ router.put(
   [
     userValidator.isUserLoggedIn,
     freetdraftValidator.isFreetDraftExists,
-    freetdraftValidator.isValidFreetDraftModifier, 
+    freetdraftValidator.isValidFreetDraftModifier,
     freetdraftValidator.isValidFreetDraftContent
   ],
   async (req: Request, res: Response) => {
@@ -118,10 +117,9 @@ router.put(
 
 /**
  * Publish a freet draft on Fritter
- * 
+ *
  * @name POST /api/freetdrafts/scheduledfreets/ id
- * 
+ *
  */
-
 
 export {router as freetdraftRouter};

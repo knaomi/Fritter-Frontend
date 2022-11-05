@@ -13,8 +13,8 @@ import UserCollection from '../user/collection';
  */
 class FreetDraftCollection {
   /**
-   * Add a freetdraft to the collection 
-   * 
+   * Add a freetdraft to the collection
+   *
    * (AT THE MOMENT: WITHOUT SCHEDULED POSTING TIME OR DESTROYING TIME AFTER POSTING)
    *
    * @param {string} authorId - The id of the author of the freetdraft
@@ -43,7 +43,6 @@ class FreetDraftCollection {
     return FreetDraftModel.findOne({_id: freetdraftId}).populate('authorId');
   }
 
-
   /**
    * Get all the freetdrafts in the database
    *
@@ -71,7 +70,7 @@ class FreetDraftCollection {
    * @param {string} userid - The userid of author of the freetdrafts
    * @return {Promise<HydratedDocument<FreetDraft>[]>} - An array of all of the freetdrafts
    */
-   static async findAllByAuthorId(userid: Types.ObjectId |string): Promise<Array<HydratedDocument<FreetDraft>>> {
+  static async findAllByAuthorId(userid: Types.ObjectId | string): Promise<Array<HydratedDocument<FreetDraft>>> {
     const author = await UserCollection.findOneByUserId(userid);
     return FreetDraftModel.find({authorId: author._id}).sort({dateModified: -1}).populate('authorId');
   }
