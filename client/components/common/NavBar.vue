@@ -12,9 +12,19 @@
     </div>
 
     <div class="middle">
+    
+    <li>
+      <router-link to="/likes">
+          Likes
+        </router-link>
+    </li>
+    <li>
       <router-link to="/downfreets">
         DownFreets
       </router-link>
+    </li>
+
+
     </div>
 
     <div class="right">
