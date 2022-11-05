@@ -59,14 +59,13 @@
 
 <script>
 import FreetComponent from '@/components/Freet/FreetComponent.vue';
-import GetLikesForm from '@/components/Likes/GetLikesForm.vue';
-
+import GetLikesForm from '@/components/Like/GetLikesForm.vue';
 
 export default {
   name: 'LikePage',
-  components: {LikeComponent, GetLikesForm, FreetComponent},
+  components: {GetLikesForm, FreetComponent},
   mounted() {
-    this.$refs.getsForm.submit();
+    this.$refs.getLikesForm.submit();
   }
 };
 </script>
