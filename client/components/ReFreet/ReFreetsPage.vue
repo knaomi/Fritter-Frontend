@@ -64,7 +64,7 @@ import GetReFreetsForm from '@/components/ReFreet/GetReFreetsForm.vue';
 
 export default {
   name: 'ReFreetPage',
-  components: {ReFreetComponent, GetReFreetsForm, FreetComponent},
+  components: {GetReFreetsForm, FreetComponent},
   mounted() {
     this.$refs.getReFreetsForm.submit();
   }
