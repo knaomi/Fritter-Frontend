@@ -30,7 +30,7 @@
               by @{{ $store.state.username }}
             </span> -->
             <GetFreetDraftsForm
-                ref="getFreetDraftsForm"
+              ref="getFreetDraftsForm"
             />
           </h2>
         </div>
