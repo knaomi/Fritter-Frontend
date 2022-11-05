@@ -10,6 +10,13 @@
         Fritter
       </h1>
     </div>
+
+    <div class="middle">
+      <router-link to="/downfreets">
+        DownFreets
+      </router-link>
+    </div>
+
     <div class="right">
       <router-link to="/">
         Home
