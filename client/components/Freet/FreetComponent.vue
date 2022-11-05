@@ -52,6 +52,20 @@
       Posted at {{ freet.dateModified }}
       <i v-if="freet.edited">(edited)</i>
     </p>
+    <!-- POTENTIALLY INSTERT REACTIONS HERE -->
+      <div
+        v-if="$store.state.username !== null"
+        class="reactions"
+      >
+      <!-- REFREET -->
+      <!-- LIKE -->
+      <!-- DOWNFREET -->
+      <!-- <DownFreetComponent/> -->
+      <!-- BOOKMARK -->
+     
+      </div>
+
+    <!-- END ALL REACTIONS -->
     <section class="alerts">
       <article
         v-for="(status, alert, index) in alerts"
@@ -65,6 +79,10 @@
 </template>
 
 <script>
+
+// TODO: CORRECT THE ERROR BELOW. YOU SHOULD ALSO BE IMPORTING THE CREATEDOWNFREETCOMPONENT FORM
+// import DownFreetComponent from '../components/DownFreet/DownFreetComponent.vue';
+
 export default {
   name: 'FreetComponent',
   props: {
@@ -74,6 +92,7 @@ export default {
       required: true
     }
   },
+// TODO ADD THE COMPONENTS THAT ARE IN USE
   data() {
     return {
       editing: false, // Whether or not this freet is in edit mode
