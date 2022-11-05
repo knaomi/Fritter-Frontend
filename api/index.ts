@@ -10,11 +10,11 @@ import * as userValidator from '../server/user/middleware';
 import {userRouter} from '../server/user/router';
 import {freetdraftRouter} from '../server/freetdraft/router';
 import {freetRouter} from '../server/freet/router';
+import {refreetRouter} from '../server/refreet/router';
 import {downfreetRouter} from '../server/downfreet/router';
 import {likeRouter} from '../server/like/router';
 // Import {bookmarkRouter} from '../bookmark/router';
 // import {bookmarknestRouter} from '../bookmarknest/router';
-// import {refreetRouter} from '../refreet/router';
 import MongoStore from 'connect-mongo';
 
 // Load environmental variables
@@ -80,7 +80,7 @@ app.use('/api/freetdrafts', freetdraftRouter);
 app.use('/api/downfreets', downfreetRouter);
 // App.use('/api/bookmarks', bookmarkRouter);
 // app.use('/api/bookmarknests', bookmarknestRouter);
-// app.use('/api/refreets', refreetRouter);
+app.use('/api/refreets', refreetRouter);
 app.use('/api/likes', likeRouter);
 
 // Catch all the other routes and display error message
