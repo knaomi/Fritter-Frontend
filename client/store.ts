@@ -10,10 +10,14 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     filter: null, // Username to filter shown freets by (null = show all)
-    downfreetfilter:null, // Username to filter shown dwonfreets by (null = show all) 
+    refreetfilter:null, // Username to filter shown freets by (null = show all)
+    downfreetfilter:null, // Username to filter shown dwonfreets by (null = show all by logged in user) 
+    likefilter:null, //Username to filter shown likes by (null = show all by logged in user)
     freets: [], // All freets created in the app
     freetdrafts: [], // all freetdrafts created by the logged in user
     downfreets:[], // all the downfreets created by a specific user
+    likes: [], // all the likes created by a specific user
+    refreets:[], //all the refreets created by a specific user
     username: null, // Username of the logged in user
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
   },
@@ -72,7 +76,28 @@ const store = new Vuex.Store({
       const res = await fetch(url).then(async r => r.json());
       state.freetdrafts = res;
     },
-
+    updateReFreetFilter(state, filter) {
+      /**
+       * Update the stored freets filter to the specified one.
+       * @param filter - Username of the user to fitler freets by
+       */
+      state.refreetfilter = filter;
+    },
+    updateReFreets(state, refreets) {
+      /**
+       * Update the stored refreets to the provided refreeted freets.
+       * @param freets - Freets to store
+       */
+      state.refreets = refreets;
+    },
+    async refreshReFreets(state) {
+      /**
+       * Request the server for the currently available refreets.
+       */
+      const url = state.filter ? `/api/users/${state.filter}/refreets` : '/api/refreets';
+      const res = await fetch(url).then(async r => r.json());
+      state.refreets = res;
+    },
     updateDownFreetFilter(state, filter) {
       /**
        * Update the stored downfreets filter to the specified one.
@@ -94,6 +119,31 @@ const store = new Vuex.Store({
        * Request the server for the currently available downfreets.
        */
       const url = state.downfreetfilter ? `/api/users/${state.downfreetfilter}/downfreets` : '/api/downfreets';
+      const res = await fetch(url).then(async r => r.json());
+      state.freets = res;
+    },
+
+    updateLikeFilter(state, filter) {
+      /**
+       * Update the stored likes filter to the specified one.
+       * @param filter - Username of the user to filter likes by
+       */
+      state.likefilter = filter;
+    },
+    updateLikes(state, likes) {
+      /**
+       * Update the stored likes to the provided likes.
+       * @param likes - Likes to store
+       */
+      state.likes = likes;
+    },
+
+    // TODO: CHANGE THE URL BELOW TO CORRECTLY INDICATE WHAT IS IN THE SERVER
+    async refreshLikes(state) {
+      /**
+       * Request the server for the currently available likes.
+       */
+      const url = state.likefilter ? `/api/users/${state.likefilter}/likes` : '/api/likes';
       const res = await fetch(url).then(async r => r.json());
       state.freets = res;
     },
