@@ -14,6 +14,12 @@
     <div class="middle">
     
     <li>
+      <router-link to="/refreets">
+        ReFreets
+      </router-link>
+    </li>
+
+    <li>
       <router-link to="/likes">
           Likes
         </router-link>

@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import FreetsPage from './components/Freet/FreetsPage.vue';
 import DownFreetsPage from './components/DownFreet/DownFreetsPage.vue';
 import LikesPage from './components/Like/LikesPage.vue';
+import ReFreetsPage from './components/ReFreet/ReFreetsPage.vue'
 import AccountPage from './components/Account/AccountPage.vue';
 import LoginPage from './components/Login/LoginPage.vue';
 import NotFound from './NotFound.vue';
@@ -13,6 +14,7 @@ const routes = [
   {path: '/', name: 'Home', component: FreetsPage},
   {path: '/downfreets', name: 'DownFreets', component: DownFreetsPage},
   {path: '/likes', name: 'Likes', component: LikesPage},
+  {path: '/refreets', name: 'ReFreets', component: ReFreetsPage},
   {path: '/account', name: 'Account', component: AccountPage},
   {path: '/login', name: 'Login', component: LoginPage},
   {path: '*', name: 'Not Found', component: NotFound}
@@ -38,6 +40,15 @@ router.beforeEach((to, from, next) => {
       next({name: 'Login'}); // Go to Login page if user navigates to DownFreets and are not signed in
       return;
     }
+    if (to.name === 'Likes' &&!router.app.$store.state.username){
+      next({name: 'Login'}); // Go to Login page if user navigates to Likes and are not signed in
+      return;     
+    }
+    if (to.name === 'ReFreets' && !router.app.$store.state.username) {
+      next({name: 'Login'}); // Go to Login page if user navigates to ReFreets and are not signed in
+      return;
+    }
+
   }
 
   next();
