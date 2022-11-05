@@ -36,6 +36,11 @@
       </router-link>
     </li>
 
+    <li>
+      <router-link to="/freetdrafts">
+        FreetDrafts
+      </router-link>
+    </li>
 
     </div>
 

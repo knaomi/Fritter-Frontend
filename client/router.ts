@@ -5,6 +5,7 @@ import DownFreetsPage from './components/DownFreet/DownFreetsPage.vue';
 import LikesPage from './components/Like/LikesPage.vue';
 import ReFreetsPage from './components/ReFreet/ReFreetsPage.vue'
 import BookMarksPage from './components/BookMark/BookMarksPage.vue';
+import FreetDraftsPage from './components/FreetDraft/FreetDraftsPage.vue';
 import AccountPage from './components/Account/AccountPage.vue';
 import LoginPage from './components/Login/LoginPage.vue';
 import NotFound from './NotFound.vue';
@@ -17,6 +18,7 @@ const routes = [
   {path: '/likes', name: 'Likes', component: LikesPage},
   {path: '/refreets', name: 'ReFreets', component: ReFreetsPage},
   {path: '/bookmarks', name: 'BookMarks', component: BookMarksPage},
+  {path: '/freetdrafts', name: 'FreetDrafts', component: FreetDraftsPage},
   {path: '/account', name: 'Account', component: AccountPage},
   {path: '/login', name: 'Login', component: LoginPage},
   {path: '*', name: 'Not Found', component: NotFound}
@@ -52,6 +54,10 @@ router.beforeEach((to, from, next) => {
     }
     if (to.name === 'BookMarks' && !router.app.$store.state.username) {
       next({name: 'Login'}); // Go to Login page if user navigates to BookMarks and are not signed in
+      return;
+    }
+    if (to.name === 'FreetDrafts' && !router.app.$store.state.username) {
+      next({name: 'Login'}); // Go to Login page if user navigates to FreetDrafts and are not signed in
       return;
     }
   }
