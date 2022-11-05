@@ -13,7 +13,7 @@
 
     <div class="middle">
     
-    <li>
+    <li> 
       <router-link to="/refreets">
         ReFreets
       </router-link>
@@ -27,6 +27,12 @@
     <li>
       <router-link to="/downfreets">
         DownFreets
+      </router-link>
+    </li>
+  
+    <li>
+      <router-link to="/bookmarks">
+        BookMarks
       </router-link>
     </li>
 
