@@ -10,8 +10,10 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     filter: null, // Username to filter shown freets by (null = show all)
+    downfreetfilter:null, // Username to filter shown dwonfreets by (null = show all) 
     freets: [], // All freets created in the app
     freetdrafts: [], // all freetdrafts created by the logged in user
+    downfreets:[], // all the downfreets created by a specific user
     username: null, // Username of the logged in user
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
   },
@@ -46,13 +48,6 @@ const store = new Vuex.Store({
        */
       state.freets = freets;
     },
-    updateFreetDrafts(state, freetdrafts) {
-      /**
-       * Update the stored freetdrafts to the provided freetdrafts.
-       * @param freetdrafts - FreetDrafts to store
-       */
-      state.freetdrafts = freetdrafts;
-    },
     async refreshFreets(state) {
       /**
        * Request the server for the currently available freets.
@@ -62,6 +57,13 @@ const store = new Vuex.Store({
       state.freets = res;
     },
 
+    updateFreetDrafts(state, freetdrafts) {
+      /**
+       * Update the stored freetdrafts to the provided freetdrafts.
+       * @param freetdrafts - FreetDrafts to store
+       */
+      state.freetdrafts = freetdrafts;
+    },
     async refreshFreetDrafts(state) {
       /**
        * Request the server for the currently available freetdrafts (by currently logged in user).
@@ -69,7 +71,32 @@ const store = new Vuex.Store({
       const url = '/api/freetdrafts';
       const res = await fetch(url).then(async r => r.json());
       state.freetdrafts = res;
-    }
+    },
+
+    updateDownFreetFilter(state, filter) {
+      /**
+       * Update the stored downfreets filter to the specified one.
+       * @param filter - Username of the user to filter downfreets by
+       */
+      state.downfreetfilter = filter;
+    },
+    updateDownFreets(state, downfreets) {
+      /**
+       * Update the stored downfreets to the provided downfreets.
+       * @param downfreets - DownFreets to store
+       */
+      state.downfreets = downfreets;
+    },
+
+    // TODO: CHANGE THE URL BELOW TO CORRECTLY INDICATE WHAT IS IN THE SERVER
+    async refreshDownFreets(state) {
+      /**
+       * Request the server for the currently available downfreets.
+       */
+      const url = state.downfreetfilter ? `/api/users/${state.downfreetfilter}/downfreets` : '/api/downfreets';
+      const res = await fetch(url).then(async r => r.json());
+      state.freets = res;
+    },
 
   },
   // Store data across page refreshes, only discard on browser close

@@ -5,7 +5,7 @@ import InlineForm from '@/components/common/InlineForm.vue';
 
 export default {
   name: 'GetFreetDraftsForm',
-  mixins: [InlineForm],
+  // mixins: [InlineForm],
   data() {
     // return {value: this.$store.state.filter};
     return {value:this.$store.state.username}

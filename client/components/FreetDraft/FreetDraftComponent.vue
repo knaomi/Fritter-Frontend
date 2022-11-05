@@ -49,7 +49,7 @@
       {{ freetdraft.content }}
     </p>
     <p class="info">
-      Posted at {{ freetdraft.dateModified }}
+      Created at {{ freetdraft.dateModified }}
       <i v-if="freetdraft.edited">(edited)</i>
     </p>
     <section class="alerts">
@@ -167,7 +167,7 @@ export default {
 </script>
 
 <style scoped>
-.freet {
+.freetdraft {
     border: 1px solid #111;
     padding: 20px;
     position: relative;
