@@ -32,13 +32,13 @@ const constructDownFreetResponse = (downfreet: HydratedDocument<DownFreet>): Dow
     })
   };
   const {username} = downfreetCopy.authorId;
-//   const {originalFreet} = downfreetCopy.originalFreet;
+  //   Const {originalFreet} = downfreetCopy.originalFreet;
   delete downfreetCopy.authorId;
   return {
     ...downfreetCopy,
     _id: downfreetCopy._id.toString(),
     author: username,
-    originalFreet:downfreetCopy.originalFreet._id.toString(),
+    originalFreet: downfreetCopy.originalFreet._id.toString(),
     dateCreated: formatDate(downfreet.dateCreated)
   };
 };

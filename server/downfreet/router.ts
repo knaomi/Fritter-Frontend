@@ -4,10 +4,9 @@ import DownFreetCollection from './collection';
 import * as userValidator from '../user/middleware';
 import * as downfreetValidator from './middleware';
 import * as freetValidator from '../freet/middleware';
-// import * as likeValidator from '../like/middleware';
+// Import * as likeValidator from '../like/middleware';
 // import LikeCollection from '../like/collection';
 import * as util from './util';
-
 
 // TODO: RETURN THE EXPIRATION THING ONCE FREET HAS IT TOO
 // RETURN THE LIKECOLLECTION ONCE LIKE IS IMPLEMENTED TOO
@@ -47,7 +46,7 @@ const router = express.Router();
 router.get(
   '/',
   [
-    userValidator.isUserLoggedIn,
+    userValidator.isUserLoggedIn
   ],
   async (req: Request, res: Response, next: NextFunction) => {
     // Check if authorId query parameter was supplied
@@ -55,6 +54,7 @@ router.get(
       next();
       return;
     }
+
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
     const authorDownFreets = await DownFreetCollection.findAllByUserId(userId);
     const response = authorDownFreets.map(util.constructDownFreetResponse);
@@ -64,16 +64,17 @@ router.get(
     downfreetValidator.isAuthorExists
   ],
   async (req: Request, res: Response, next: NextFunction) => {
-    if (req.query.freet !== undefined){
+    if (req.query.freet !== undefined) {
       next();
       return;
     }
+
     const authorDownFreets = await DownFreetCollection.findAllByUsername(req.query.author as string);
     const response = authorDownFreets.map(util.constructDownFreetResponse);
     res.status(200).json(response);
   },
   [
-    freetValidator.isFreetQueryExists,
+    freetValidator.isFreetQueryExists
   ],
   async (req: Request, res: Response) => {
     const freetDownFreets = await DownFreetCollection.findAllbyFreetId(req.query.freet as string);
@@ -97,12 +98,12 @@ router.post(
   [
     userValidator.isUserLoggedIn,
     downfreetValidator.isValidFreetId,
-    downfreetValidator.isUserAlreadyDownFreeting,
+    downfreetValidator.isUserAlreadyDownFreeting
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
     const downfreet = await DownFreetCollection.addOne(userId, req.body.freetid);
-    // const likeOnFreet = await LikeCollection.findOneByFreetId(req.body.freetid, userId);
+    // Const likeOnFreet = await LikeCollection.findOneByFreetId(req.body.freetid, userId);
     // if (likeOnFreet){
     //   await LikeCollection.deleteOne(likeOnFreet._id);
     //   res.status(201).json({
@@ -112,10 +113,10 @@ router.post(
     // }
     // VALID CODE , DO NOT DELETE UNCOMMENTED OUT CODE SINCE IT WILL BE USED BY LIKE
     // else{
-      res.status(201).json({
-        message: 'Your downfreet was created successfully.',
-        downfreet: util.constructDownFreetResponse(downfreet)
-      });
+    res.status(201).json({
+      message: 'Your downfreet was created successfully.',
+      downfreet: util.constructDownFreetResponse(downfreet)
+    });
     // } // UNCOMMENT OUT THE ELSE ONCE LIKE IS IMPLEMENTED
   }
 );
@@ -139,12 +140,11 @@ router.delete(
   ],
   async (req: Request, res: Response) => {
     await DownFreetCollection.deleteOne(req.params.downfreetId);
-    // await DownFreetCollection.deleteManybyExpiration();
+    // Await DownFreetCollection.deleteManybyExpiration();
     res.status(200).json({
       message: 'Your downfreet was deleted successfully.'
     });
   }
 );
-
 
 export {router as downfreetRouter};

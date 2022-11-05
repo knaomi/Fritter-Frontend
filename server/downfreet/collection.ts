@@ -23,8 +23,8 @@ class DownFreetCollection {
     const downfreet = new DownFreetModel({
       authorId,
       originalFreet,
-      dateCreated: date,
-      // expiringDate: (await FreetCollection.findOne(originalFreet))?.expiringDate,
+      dateCreated: date
+      // ExpiringDate: (await FreetCollection.findOne(originalFreet))?.expiringDate,
     });
     await downfreet.save(); // Saves downfreet to MongoDB
     return downfreet.populate('authorId');
@@ -37,27 +37,21 @@ class DownFreetCollection {
    * @return {Promise<HydratedDocument<DownFreet>> | Promise<null> } - The downfreet with the given downfreetId, if any
    */
   static async findOne(downfreetId: Types.ObjectId | string): Promise<HydratedDocument<DownFreet>> {
-    // return DownFreetModel.findOne({_id: downfreetId, expiringDate: {$gt: new Date()}}).populate('authorId');
+    // Return DownFreetModel.findOne({_id: downfreetId, expiringDate: {$gt: new Date()}}).populate('authorId');
     return DownFreetModel.findOne({_id: downfreetId}).populate('authorId');
-
   }
 
-
-/**
+  /**
    * Find a downfreet by freetId for a given author
    * @param {string} freetId - The id of the originalfreet
    * @param {string} authorId - The id of the author of the like on freet to find
    * @return {Promise<HydratedDocument<Down>> | Promise<null> } - The downfreet on the freet by author, if any
   */
- static async findOneByFreetId(freetId: string, authorId: Types.ObjectId | string): Promise<HydratedDocument<DownFreet>> {
-  const author = await UserCollection.findOneByUserId(authorId);
-  const freet = await FreetCollection.findOne(freetId);
-  return DownFreetModel.findOne({originalFreet: freet, authorId: author._id}).populate('authorId');
-
-
-}
-
-
+  static async findOneByFreetId(freetId: string, authorId: Types.ObjectId | string): Promise<HydratedDocument<DownFreet>> {
+    const author = await UserCollection.findOneByUserId(authorId);
+    const freet = await FreetCollection.findOne(freetId);
+    return DownFreetModel.findOne({originalFreet: freet, authorId: author._id}).populate('authorId');
+  }
 
   /**
    * Get all the downfreets in the database (i.e. on all Freets by all users)
@@ -68,7 +62,6 @@ class DownFreetCollection {
     // Retrieves downfreets and sorts them from most to least recent
     // return DownFreetModel.find({expiringDate: {$gt: new Date()}}).sort({dateCreated: -1}).populate('authorId');
     return DownFreetModel.find({}).sort({dateCreated: -1}).populate('authorId');
-
   }
 
   /**
@@ -79,35 +72,32 @@ class DownFreetCollection {
    */
   static async findAllByUsername(username: string): Promise<Array<HydratedDocument<DownFreet>>> {
     const author = await UserCollection.findOneByUsername(username);
-    // return DownFreetModel.find({authorId: author._id, expiringDate: {$gt: new Date()}}).populate('authorId');
+    // Return DownFreetModel.find({authorId: author._id, expiringDate: {$gt: new Date()}}).populate('authorId');
     return DownFreetModel.find({authorId: author._id}).populate('authorId');
-
   }
 
   /**
-     * Get all the downfreets in by given author 
+     * Get all the downfreets in by given author
      *
      * @param {string} userId - The id of author of the downfreets
      * @return {Promise<HydratedDocument<DownFreet>[]>} - An array of all of the downfreets
      */
-  static async findAllByUserId(userId: Types.ObjectId |string): Promise<Array<HydratedDocument<DownFreet>>> {
+  static async findAllByUserId(userId: Types.ObjectId | string): Promise<Array<HydratedDocument<DownFreet>>> {
     const author = await UserCollection.findOneByUserId(userId);
-    // return DownFreetModel.find({authorId: author._id, expiringDate: {$gt: new Date()}}).populate('authorId');
+    // Return DownFreetModel.find({authorId: author._id, expiringDate: {$gt: new Date()}}).populate('authorId');
     return DownFreetModel.find({authorId: author._id}).populate('authorId');
-
   }
-  
+
   /**
    * Get all the DownFreets on a Freet
-   * 
+   *
    * @param {string} freetId - The Id of the Freet
    * @returns Promise<Array<HydratedDocument<DownFreet>>> - An array of all the DownFreets
    */
-  static async findAllbyFreetId(freetId: Types.ObjectId | string): Promise<Array<HydratedDocument<DownFreet>>>{
+  static async findAllbyFreetId(freetId: Types.ObjectId | string): Promise<Array<HydratedDocument<DownFreet>>> {
     const freet = await FreetCollection.findOne(freetId);
     return DownFreetModel.find({originalFreet: freet._id}).populate('_id');
   }
-
 
   /**
    * Delete a downfreet with given downfreetId.
@@ -133,19 +123,17 @@ class DownFreetCollection {
    * Delete all the downfreets on a freet
    * @param {string} freetId - The id of the Freet whose downFreets are being deleted
    */
-  static async deleteManybyFreetId(freetId: Types.ObjectId | string ):Promise<void>{
-    await DownFreetModel.deleteMany({freetId})
+  static async deleteManybyFreetId(freetId: Types.ObjectId | string): Promise<void> {
+    await DownFreetModel.deleteMany({freetId});
   }
 
 //  /**
-//    * Delete all the downfreets on expired freets 
+//    * Delete all the downfreets on expired freets
 //    *
 //    */
 //   static async deleteManybyExpiration(): Promise<void> {
 //     await DownFreetModel.deleteMany({expiringDate: {$lte: new Date()}});
 //   }
 }
-
-
 
 export default DownFreetCollection;
