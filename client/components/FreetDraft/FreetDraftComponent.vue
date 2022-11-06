@@ -152,7 +152,7 @@ export default {
           const res = await r.json();
           throw new Error(res.error);
         }
-
+        console.log("in draftcomponent", r)
         this.editing = false;
         this.$store.commit('refreshFreetDrafts');
 

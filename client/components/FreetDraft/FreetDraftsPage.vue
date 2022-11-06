@@ -72,9 +72,17 @@ export default {
   name: 'FreetDraftPage',
   components: {FreetDraftComponent,CreateFreetDraftForm, GetFreetDraftsForm},
   mounted() {
-    this.$refs.GetFreetDraftsForm.submit();
+    this.getstoredrafts();
+    this.$refs.getFreetDraftsForm.submit();
+   
+    // console.log("store drsfts", $store.state.freetdrafts);
     // this.GetFreetDraftsForm.submit(); // No need to uniquely identify it since you only want to make sure
     // that the store has the correct freetdrafts everytime the page is referenced
+  },
+  methods:{
+    getstoredrafts(){
+      console.log("store drsfts", this.$store.state.freetdrafts);
+    }
   }
 };
 </script>

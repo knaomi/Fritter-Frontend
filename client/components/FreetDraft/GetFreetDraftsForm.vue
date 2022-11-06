@@ -1,4 +1,6 @@
 <!-- Form for getting freetdrafts (all, from user) (inline style) -->
+<template>
+</template>
 
 <script>
 import InlineForm from '@/components/common/InlineForm.vue';
