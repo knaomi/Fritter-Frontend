@@ -52,19 +52,16 @@
       Posted at {{ freet.dateModified }}
       <i v-if="freet.edited">(edited)</i>
     </p>
-    <!-- POTENTIALLY INSTERT REACTIONS HERE -->
-      <div
-        v-if="$store.state.username !== null"
-        class="reactions"
-      >
+    <!-- BEGINNING OF REACTIONS -->
+    <div
+      v-if="$store.state.username !== null"
+      class="reactions"
+    >
       <!-- REFREET -->
-      <!-- LIKE -->
-      <!-- DOWNFREET -->
-      <!-- <DownFreetComponent/> -->
-      <!-- BOOKMARK -->
-     
-      </div>
-
+      <CreateLikeComponent
+      v-bind:freet="freet"
+      />
+    </div>
     <!-- END ALL REACTIONS -->
     <section class="alerts">
       <article
@@ -80,8 +77,10 @@
 
 <script>
 
-// TODO: CORRECT THE ERROR BELOW. YOU SHOULD ALSO BE IMPORTING THE CREATEDOWNFREETCOMPONENT FORM
-// import DownFreetComponent from '../components/DownFreet/DownFreetComponent.vue';
+
+import CreateLikeComponent from '@/components/Like/CreateLikeComponent.vue';
+
+
 
 export default {
   name: 'FreetComponent',
@@ -92,7 +91,10 @@ export default {
       required: true
     }
   },
-// TODO ADD THE COMPONENTS THAT ARE IN USE
+  components:{
+    CreateLikeComponent,
+  },
+
   data() {
     return {
       editing: false, // Whether or not this freet is in edit mode
