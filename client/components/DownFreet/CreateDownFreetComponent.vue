@@ -6,7 +6,7 @@
         class="notdownfreeting"
         >
             <button 
-            @click="AddDownFreet">
+            @click="addDownFreet">
                ⤵️DownFreet
             </button>
     </div>
