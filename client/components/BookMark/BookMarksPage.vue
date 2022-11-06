@@ -60,6 +60,28 @@ This is the default page of bookmarks which will only display the bookmark nests
         <h3>No nests found.</h3>
       </article>
     </section>
+      <header>
+        <div class="left">
+          <h2>
+            Viewing all bookmarked freets in Nest: 
+            <span v-if="$store.state.nestfilter">
+              by @{{ $store.state.nestfilter }}
+            </span>
+          </h2>
+        </div>
+        <div class="right">
+          <GetNestFreetsForm 
+            ref="getNestFreetsForm"
+            value="nestname"
+            placeholder="🔍 Filter by nestname (optional)"
+            button="🔄 Get freets in Nest"
+          />
+        </div>
+      </header>
+
+    <section>
+
+    </section>
   </main>
 </template>
 
@@ -67,13 +89,21 @@ This is the default page of bookmarks which will only display the bookmark nests
 import NestComponent from '@/components/BookMark/NestComponent.vue';
 import CreateNestForm from '@/components/BookMark/CreateNestForm.vue';
 import GetNestsForm from '@/components/BookMark/GetNestsForm.vue';
+import GetNestFreetsForm from '@/components/BookMark/GetNestFreetsForm.vue';
 
 
 export default {
   name: 'BookMarkPage',
-  components: {NestComponent, GetNestsForm, CreateNestForm},
+  components: {NestComponent, GetNestsForm, CreateNestForm, GetNestFreetsForm},
   mounted() {
     this.$refs.getNestsForm.submit();
+    this.$refs.getNestFreetsForm.submit();
+    this.nestslost();
+  },
+  methods:{
+    nestslost(){
+      console.log("what happened to the nests?", this.$store.state.nests)
+    }
   }
 };
 </script>

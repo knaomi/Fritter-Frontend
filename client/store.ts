@@ -13,11 +13,14 @@ const store = new Vuex.Store({
     refreetfilter:null, // Username to filter shown freets by (null = show all)
     downfreetfilter:null, // Username to filter shown dwonfreets by (null = show all by logged in user) 
     likefilter:null, //Username to filter shown likes by (null = show all by logged in user)
+    nestfilter:null, // nestname to filter shown bookmarked freets by (null =  show all by logged in user)
     freets: [], // All freets created in the app
     freetdrafts: [], // all freetdrafts created by the logged in user
     downfreets:[], // all the downfreets created by a specific user
     likes: [], // all the likes created by a specific user
     refreets:[], //all the refreets created by a specific user
+    nests:[], // all the nests belonging to the logged in user
+    bookmarks:[], // all the bookmarked freets which may be specific to a nest
     username: null, // Username of the logged in user
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
   },
@@ -148,6 +151,44 @@ const store = new Vuex.Store({
       state.freets = res;
     },
 
+    updateNestFilter(state, nestfilter) {
+      /**
+       * Update the stored nests filter to the specified one.
+       * @param nestfilter - Nestname of the nest to filter freets by
+       */
+      state.nestfilter = nestfilter;
+    },
+
+    updateNests(state, nests) {
+      /**
+       * Update the stored nests to the provided nests.
+       * @param nests - Nests to store
+       */
+      state.nests = nests;
+    },
+    async refreshNests(state) {
+      /**
+       * Request the server for the currently available nests.
+       */
+      const url = '/api/bookmarknests';
+      const res = await fetch(url).then(async r => r.json());
+      state.freets = res;
+    },
+    updateBookMarks(state, bookmarks) {
+      /**
+       * Update the stored bookmarks to the provided bookmarks.
+       * @param bookmarks - BookMarked Freets to store
+       */
+      state.bookmarks = bookmarks;
+    },
+    async refreshBookMarks(state) {
+      /**
+       * Request the server for the currently available bookmarked freets.
+       */
+      const url = state.nestfilter ? `/api/bookmarknests?nestname=${state.nestfilter}` : '/api/bookmarks';
+      const res = await fetch(url).then(async r => r.json());
+      state.bookmarks = res;
+    },
   },
   // Store data across page refreshes, only discard on browser close
   plugins: [createPersistedState()]
