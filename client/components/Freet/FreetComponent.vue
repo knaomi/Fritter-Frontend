@@ -66,6 +66,9 @@
       <CreateDownFreetComponent
         v-bind:freet="freet"
         />
+      <CreateBookMarkComponent
+        v-bind:freet="freet"
+        />
 
     </div>
     <!-- END ALL REACTIONS -->
@@ -87,7 +90,7 @@
 import CreateLikeComponent from '@/components/Like/CreateLikeComponent.vue';
 import CreateDownFreetComponent from '@/components/DownFreet/CreateDownFreetComponent.vue';
 import CreateReFreetComponent from '@/components/ReFreet/CreateReFreetComponent.vue';
-
+import CreateBookMarkComponent from '@/components/BookMark/CreateBookMarkComponent.vue';
 
 export default {
   name: 'FreetComponent',
@@ -99,7 +102,7 @@ export default {
     }
   },
   components:{
-    CreateLikeComponent,CreateDownFreetComponent,CreateReFreetComponent,
+    CreateLikeComponent,CreateDownFreetComponent,CreateReFreetComponent,CreateBookMarkComponent,
   },
 
   data() {
