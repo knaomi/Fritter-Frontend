@@ -27,9 +27,9 @@ export default {
         // TODO: It is not possible to change the name of a bookmarknest so this may never execute
           // This section triggers if you filter to a user but they
           // change the nest when you refresh
-          this.$store.commit('updateNestFilter', null);
-          this.value = ''; // Clear filter to show all users' bookmarked freets
-          this.$store.commit('refreshBookMarks');
+          // this.$store.commit('updateNestFilter', null);
+          // this.value = ''; // Clear filter to show all users' bookmarked freets
+          // this.$store.commit('refreshBookMarks');
         } else {
           // Otherwise reset to previous fitler
           this.value = this.$store.state.nestfilter;

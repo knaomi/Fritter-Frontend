@@ -60,6 +60,7 @@ This is the default page of bookmarks which will only display the bookmark nests
         <h3>No nests found.</h3>
       </article>
     </section>
+    <section>
       <header>
         <div class="left">
           <h2>
@@ -79,9 +80,22 @@ This is the default page of bookmarks which will only display the bookmark nests
         </div>
       </header>
 
-    <section>
-
+      <section
+        v-if="$store.state.bookmarks.length"
+      >
+        <FreetComponent
+          v-for="freet in $store.state.bookmarks"
+          :key="freet.id"
+          :freet="freet"
+        />
+      </section>
+      <article
+        v-else
+      >
+        <h3>No bookmarked freets found.</h3>
+      </article>
     </section>
+
   </main>
 </template>
 
@@ -90,11 +104,13 @@ import NestComponent from '@/components/BookMark/NestComponent.vue';
 import CreateNestForm from '@/components/BookMark/CreateNestForm.vue';
 import GetNestsForm from '@/components/BookMark/GetNestsForm.vue';
 import GetNestFreetsForm from '@/components/BookMark/GetNestFreetsForm.vue';
+import FreetComponent from '@/components/Freet/FreetComponent.vue';
 
 
 export default {
   name: 'BookMarkPage',
-  components: {NestComponent, GetNestsForm, CreateNestForm, GetNestFreetsForm},
+  components: {NestComponent, GetNestsForm, CreateNestForm, GetNestFreetsForm,
+        FreetComponent},
   mounted() {
     this.$refs.getNestsForm.submit();
     this.$refs.getNestFreetsForm.submit();
