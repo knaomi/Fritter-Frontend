@@ -57,7 +57,9 @@
       v-if="$store.state.username !== null"
       class="reactions"
     >
-      
+      <CreateReFreetComponent
+        v-bind:freet="freet"
+        />      
       <CreateLikeComponent
         v-bind:freet="freet"
         />
@@ -84,7 +86,7 @@
 
 import CreateLikeComponent from '@/components/Like/CreateLikeComponent.vue';
 import CreateDownFreetComponent from '@/components/DownFreet/CreateDownFreetComponent.vue';
-
+import CreateReFreetComponent from '@/components/ReFreet/CreateReFreetComponent.vue';
 
 
 export default {
@@ -97,7 +99,7 @@ export default {
     }
   },
   components:{
-    CreateLikeComponent,CreateDownFreetComponent,
+    CreateLikeComponent,CreateDownFreetComponent,CreateReFreetComponent,
   },
 
   data() {
