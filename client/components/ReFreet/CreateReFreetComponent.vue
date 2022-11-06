@@ -7,7 +7,7 @@
         >
             <button 
             @click="AddReFreet">
-               ⤵️ReFreet
+               🔃ReFreet
             </button>
     </div>
    <p
@@ -16,7 +16,7 @@
     >
         <button 
         @click="deleteReFreet">
-            ⤵️ReFreet
+            🔃ReFreet
         </button>
     </p>
 </template>
