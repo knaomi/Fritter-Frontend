@@ -1,6 +1,6 @@
 <template>
     <div
-        v-if="!isUserLikesFreet( freet.id)"
+        v-if="!isUserLikesFreet()"
         class="notliking"
         >
             <button 
@@ -21,6 +21,7 @@
 
 <script>
 export default {
+  name:'CreateLikeComponent',
   props: {
     // Data from the stored freet
     freet: {

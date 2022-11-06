@@ -57,10 +57,14 @@
       v-if="$store.state.username !== null"
       class="reactions"
     >
-      <!-- REFREET -->
+      
       <CreateLikeComponent
-      v-bind:freet="freet"
-      />
+        v-bind:freet="freet"
+        />
+      <CreateDownFreetComponent
+        v-bind:freet="freet"
+        />
+
     </div>
     <!-- END ALL REACTIONS -->
     <section class="alerts">
@@ -79,6 +83,7 @@
 
 
 import CreateLikeComponent from '@/components/Like/CreateLikeComponent.vue';
+import CreateDownFreetComponent from '@/components/DownFreet/CreateDownFreetComponent.vue';
 
 
 
@@ -92,7 +97,7 @@ export default {
     }
   },
   components:{
-    CreateLikeComponent,
+    CreateLikeComponent,CreateDownFreetComponent,
   },
 
   data() {
