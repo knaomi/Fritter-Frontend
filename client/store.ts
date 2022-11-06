@@ -123,7 +123,7 @@ const store = new Vuex.Store({
        */
       const url = state.downfreetfilter ? `/api/users/${state.downfreetfilter}/downfreets` : '/api/downfreets';
       const res = await fetch(url).then(async r => r.json());
-      state.freets = res;
+      state.downfreets = res;
     },
 
     updateLikeFilter(state, filter) {
@@ -148,7 +148,7 @@ const store = new Vuex.Store({
        */
       const url = state.likefilter ? `/api/users/${state.likefilter}/likes` : '/api/likes';
       const res = await fetch(url).then(async r => r.json());
-      state.freets = res;
+      state.likes = res;
     },
 
     updateNestFilter(state, nestfilter) {
@@ -172,7 +172,7 @@ const store = new Vuex.Store({
        */
       const url = '/api/bookmarknests';
       const res = await fetch(url).then(async r => r.json());
-      state.freets = res;
+      state.nests = res;
     },
     updateBookMarks(state, bookmarks) {
       /**
