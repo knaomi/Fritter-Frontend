@@ -65,7 +65,15 @@ export default {
   name: 'LikePage',
   components: {GetLikesForm, FreetComponent},
   mounted() {
+    this.actuallikedfreet()
     this.$refs.getLikesForm.submit();
+    
+  },
+  methods:{
+    actuallikedfreet(){
+      console.log("in like page", (this.$store.state.likes[0]).originalFreet)
+      // console.log("on likes page convetting to frret", this.$store.getters.getFreetfromFreetId(this.$store.likes[0].originalFreet))
+    }
   }
 };
 </script>

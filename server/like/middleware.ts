@@ -56,8 +56,11 @@ const isValidFreetId = async (req: Request, res: Response, next: NextFunction) =
  * Checks if the current user is the author of the like whose freetId is in req.params
  */
 const isValidLikeModifier = async (req: Request, res: Response, next: NextFunction) => {
-  const like = await LikeCollection.findOne(req.params.likeId);
-  const userId = like.authorId._id;
+  console.log(req.params.freetId);;
+  
+  const like = await LikeCollection.findOneByFreetId(req.params.freetId, req.session.userId)
+  console.log(like);
+  const userId = like.authorId;
   if (req.session.userId !== userId.toString()) {
     res.status(403).json({
       error: 'Cannot modify other users\' likes.'

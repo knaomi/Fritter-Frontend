@@ -157,7 +157,7 @@ router.delete(
     userValidator.isUserLoggedIn,
     // likeValidator.isLikeExists,
     freetValidator.isFreetExists,
-    likeValidator.isValidLikeModifier
+    // likeValidator.isValidLikeModifier
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? '';

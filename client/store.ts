@@ -9,21 +9,81 @@ Vue.use(Vuex);
  */
 const store = new Vuex.Store({
   state: {
-    filter: null, // Username to filter shown freets by (null = show all)
-    refreetfilter:null, // Username to filter shown freets by (null = show all)
-    downfreetfilter:null, // Username to filter shown dwonfreets by (null = show all by logged in user) 
-    likefilter:null, //Username to filter shown likes by (null = show all by logged in user)
-    nestfilter:null, // nestname to filter shown bookmarked freets by (null =  show all by logged in user)
-    freets: [], // All freets created in the app
-    freetdrafts: [], // all freetdrafts created by the logged in user
-    downfreets:[], // all the downfreets created by a specific user
-    likes: [], // all the likes created by a specific user
-    refreets:[], //all the refreets created by a specific user
-    nests:[], // all the nests belonging to the logged in user
-    bookmarks:[], // all the bookmarked freets which may be specific to a nest
+    test: "I hope on refreshing page I am around",
     username: null, // Username of the logged in user
+    filter: null, // Username to filter shown freets by (null = show all)
+    freets: [], // All freets created in the app
+    refreetfilter:null, // Username to filter shown freets by (null = show all)
+    refreets:[], //all the refreets created by a specific user
+    downfreetfilter:null, // Username to filter shown dwonfreets by (null = show all by logged in user) 
+    downfreets:[], // all the downfreets created by a specific user
+    likefilter:null, //Username to filter shown likes by (null = show all by logged in user)
+    likes: [], // all the likes created by a specific user
+    nestfilter:null, // nestname to filter shown bookmarked freets by (null =  show all by logged in user)
+    nests:[], // all the nests belonging to the logged in user
+    freetdrafts: [], // all freetdrafts created by the logged in user
+    bookmarks:[], // all the bookmarked freets which may be specific to a nest
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
   },
+
+  getters:{
+    getNumRefreetsOnFreet(state,freet){
+      // TODO: PASS ARGS TO GETTERS BY RETURNING a functiom that can take in args
+      
+      return 0
+    },
+    getNumLikesOnFreet(state, freet){
+      return 0
+    },
+    getNumDownFreetsOnFreet(state, freet){
+      return 0
+    },
+    getNumBookMarksOnFreet(state, freet){
+      return 0
+    },
+    isUserReFreetsFreet(state, freet){
+      return false
+    },
+    isUserLikesFreet(state, freet){
+    
+      // console.log("in store", state.likes)
+      // if (!state.likes.length){
+      //   return false;
+      // }
+      // for (const like of state.likes){
+      //   if (freet.id.toString() === like.originalFreet){
+      //     return true;
+      //   }
+      // }
+      // return false;
+      //   function innerfunction(state:Object, freet:Object){
+      //     console.log("store likes after liking", freet)
+      //     const likesonfreet= (state.likes).filter(item => item.originalFreet === freet._id)
+      //     console.log("store likes after liking", likesonfreet)
+      //     const authorsOfLikesOnFreet = likesonfreet.filter(item => item.author.toString() === freet.author.toString())
+      //     // console.log("authorsOfLikesOnFreet",authorsOfLikesOnFreet)
+      //     return  authorsOfLikesOnFreet.includes(state.username)
+    
+      //   }
+      // return innerfunction
+      // console.log("store likes after liking", freet)
+      // const likesonfreet= (state.likes).filter(item => item.originalFreet === freet._id)
+      // console.log("store likes after liking", likesonfreet)
+      // const authorsOfLikesOnFreet = likesonfreet.filter(item => item.author.toString() === freet.author.toString())
+      // // console.log("authorsOfLikesOnFreet",authorsOfLikesOnFreet)
+      // return  authorsOfLikesOnFreet.includes(state.username)
+      return false;
+
+    },
+    isUserDownFreetsFreet(state, freet){
+      return false
+    },
+    isUserBookMarksFreet(state, freet){
+      return false
+    }
+
+  },
+  
   mutations: {
     alert(state, payload) {
       /**
@@ -59,7 +119,8 @@ const store = new Vuex.Store({
       /**
        * Request the server for the currently available freets.
        */
-      const url = state.filter ? `/api/users/${state.filter}/freets` : '/api/freets';
+      // const url = state.filter ? `/api/users/${state.filter}/freets` : '/api/freets';
+      const url = state.filter ? `/api/freets/?author=${state.filter}` : '/api/freets';
       const res = await fetch(url).then(async r => r.json());
       state.freets = res;
     },
@@ -97,7 +158,8 @@ const store = new Vuex.Store({
       /**
        * Request the server for the currently available refreets.
        */
-      const url = state.filter ? `/api/users/${state.filter}/refreets` : '/api/refreets';
+      // const url = state.filter ? `/api/users/${state.filter}/refreets` : '/api/refreets';
+      const url = state.filter ? `/api/refreets/?author=${state.refreetfilter}` : '/api/refreets';
       const res = await fetch(url).then(async r => r.json());
       state.refreets = res;
     },
@@ -121,7 +183,8 @@ const store = new Vuex.Store({
       /**
        * Request the server for the currently available downfreets.
        */
-      const url = state.downfreetfilter ? `/api/users/${state.downfreetfilter}/downfreets` : '/api/downfreets';
+      // const url = state.downfreetfilter ? `/api/users/${state.downfreetfilter}/downfreets` : '/api/downfreets';
+      const url = state.filter ? `/api/downfreets/?author=${state.downfreetfilter}` : '/api/downfreets';
       const res = await fetch(url).then(async r => r.json());
       state.downfreets = res;
     },
@@ -146,7 +209,8 @@ const store = new Vuex.Store({
       /**
        * Request the server for the currently available likes.
        */
-      const url = state.likefilter ? `/api/users/${state.likefilter}/likes` : '/api/likes';
+      // const url = state.likefilter ? `/api/users/${state.likefilter}/likes` : '/api/likes';
+      const url = state.filter ? `/api/likes/?author=${state.likefilter}` : '/api/likes';
       const res = await fetch(url).then(async r => r.json());
       state.likes = res;
     },
