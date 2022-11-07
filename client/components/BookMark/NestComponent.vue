@@ -26,6 +26,18 @@ TODO: THE ABOVE IS FUTURE IMPLEMENTATION -->
         <button @click="deleteNest">
           🗑️ Delete
         </button>
+      
+      <article class="nestfreets">
+
+        <!-- <h3> See Freets</h3> -->
+      <button @click="seeNestFreets">
+          See Freets
+      </button>
+      <section v-if="displayNestFreets">
+        {{this.$store.state.freets}}
+      </section>
+
+      </article>
     </div>
     <section class="alerts">
       <article
@@ -53,12 +65,22 @@ export default {
 // TODO ADD THE COMPONENTS THAT ARE IN USE
   data() {
     return {
+      displayNestFreets:true,
       editing: false, // Whether or not this freet is in edit mode
     //   draft: this.freet.content, // Potentially-new content for this freet
       alerts: {} // Displays success/error messages encountered during nest modification
     };
   },
   methods: {
+
+    seeNestFreets(){
+      this.displayNestFreets = true;
+    },
+
+    getNestFreets(){
+
+    },
+
     deleteNest() {
       /**
        * Deletes this nest.
