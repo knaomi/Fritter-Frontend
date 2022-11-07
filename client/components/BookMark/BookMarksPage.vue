@@ -8,7 +8,7 @@ This is the default page of bookmarks which will only display the bookmark nests
         <h2>Welcome @{{ $store.state.username }} to your saved freets page</h2>
       </header>
       <CreateNestForm />
-      <h3> Have fun discovering your bookmarked freets in each nest below!!! </h3>
+      <!-- <h3> Have fun discovering your bookmarked freets in each nest below!!! </h3> -->
     </section>
     <section v-else>
       <header>
@@ -30,20 +30,13 @@ This is the default page of bookmarks which will only display the bookmark nests
             Viewing all bookmark nests
             <!-- <span v-if="$store.state.nestfilter">
               by @{{ $store.state.nestfilter }}
-            </span> -->
-            <!-- <GetNestsForm
-            ref="getNestsForm" -->
+            </span> OBSOLETE FOR THIS FIRST PART--> 
+            <!-- TODO: REPLACE THE COMPONENT BELOW WITH A METHOD that updates the store -->
+            <GetNestsForm
+            ref="getNestsForm"
             />
           </h2>
         </div>
-        <!-- <div class="right">
-          <GetFreetsForm 
-            ref="getFreetsForm"
-            value="author"
-            placeholder="🔍 Filter by author (optional)"
-            button="🔄 Get freets"
-          />
-        </div> -->
       </header>
       <section
         v-if="$store.state.nests.length"
@@ -102,7 +95,7 @@ This is the default page of bookmarks which will only display the bookmark nests
 <script>
 import NestComponent from '@/components/BookMark/NestComponent.vue';
 import CreateNestForm from '@/components/BookMark/CreateNestForm.vue';
-// import GetNestsForm from '@/components/BookMark/GetNestsForm.vue';
+import GetNestsForm from '@/components/BookMark/GetNestsForm.vue';
 import GetNestFreetsForm from '@/components/BookMark/GetNestFreetsForm.vue';
 import FreetComponent from '@/components/Freet/FreetComponent.vue';
 
@@ -110,9 +103,9 @@ import FreetComponent from '@/components/Freet/FreetComponent.vue';
 export default {
   name: 'BookMarkPage',
   components: {NestComponent, CreateNestForm, GetNestFreetsForm,
-        FreetComponent},
+        FreetComponent, GetNestsForm},
   mounted() {
-    // this.$refs.getNestsForm.submit();
+    this.$refs.getNestsForm.submit();
 
     this.$refs.getNestFreetsForm.submit();
     this.nestslost();
