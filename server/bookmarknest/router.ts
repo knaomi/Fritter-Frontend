@@ -21,16 +21,16 @@ const router = express.Router();
  *                      order by date added
  *  * @throws {403} - If the user is not logged in
  */
-// /**
-//  * Get bookmarknests by author.
-//  *
-//  * @name GET /api/bookmarknests?authorId=id
-//  *
-//  * @return {BookMarkNestResponse[]} - An array of bookmarknests created by user with id, authorId
-//  * @throws {400} - If authorId is not given
-//  * @throws {404} - If no user has given authorId
-//  *
-//  */
+/**
+ * Get bookmarknests in nest specified by nestname.
+ *
+ * @name GET /api/bookmarknests?nestname=id
+ *
+ * @return {BookMarkNestResponse[]} - An array of bookmarknests created by user with id, authorId
+ * @throws {400} - If nestname is not given
+ * @throws {404} - If no user has given authorId i.e. not logged in 
+ *
+ */
 router.get(
   '/',
   // async (req: Request, res: Response, next: NextFunction) => {
@@ -49,15 +49,28 @@ router.get(
     // bookmarknestValidator.isValidBookMarkNestViewer,
 
   ],
-  async (req: Request, res: Response) => {
-    // const authorBookMarkNests = await BookMarkNestCollection.findAllByUsername(req.query.author as string);
-    // const response = authorBookMarkNests.map(util.constructBookMarkNestResponse);
-    // res.status(200).json(response);
+  async (req: Request, res: Response, next:NextFunction) => {
+    if (req.query.nestname !== undefined) {
+      next();
+      return;
+    } 
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
     const authorBookMarkNests = await BookMarkNestCollection.findAllByUserId(userId);
     const response = authorBookMarkNests.map(util.constructBookMarkNestResponse);
     res.status(200).json(response);
-  }
+  },
+  [
+    bookmarknestValidator.isValidNestnameQuery,
+  ],
+  async (req: Request, res: Response) => {
+    const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
+    const nestId = await BookMarkNestCollection.findOneByNestName(req.query.nestname as string, userId);
+    const Nestfreets = await BookMarkCollection.findAllByNestId(nestId.toString());
+    const response = Nestfreets.map(bookmarkutil.constructBookMarkResponse);
+    console.log("reached router here well", Nestfreets)
+    res.status(200).json(response);
+  }, 
+  
 
   // GET BOOKMARKS IN A BOOKMARK NEST
 );

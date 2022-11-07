@@ -113,15 +113,32 @@ router.post(
  *                 the refreet
  * @throws {404} - If the refreetId is not valid
  */
+// router.delete(
+//   '/:refreetId?',
+//   [
+//     userValidator.isUserLoggedIn,
+//     refreetValidator.isReFreetExists,
+//     refreetValidator.isValidReFreetModifier
+//   ],
+//   async (req: Request, res: Response) => {
+//     await ReFreetCollection.deleteOne(req.params.refreetId);
+//     // await ReFreetCollection.deleteManybyExpiration();
+//     res.status(200).json({
+//       message: 'Your refreet was deleted successfully.'
+//     });
+//   }
+// );
 router.delete(
-  '/:refreetId?',
+  '/:freetId?',
   [
     userValidator.isUserLoggedIn,
-    refreetValidator.isReFreetExists,
+    // refreetValidator.isReFreetExists,
+    freetValidator.isFreetExists,
     refreetValidator.isValidReFreetModifier
   ],
   async (req: Request, res: Response) => {
-    await ReFreetCollection.deleteOne(req.params.refreetId);
+    const userId = (req.session.userId as string) ?? '';
+    await ReFreetCollection.deleteOnebyFreetID(req.params.freetId, userId);
     // await ReFreetCollection.deleteManybyExpiration();
     res.status(200).json({
       message: 'Your refreet was deleted successfully.'

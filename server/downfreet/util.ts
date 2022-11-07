@@ -38,7 +38,8 @@ const constructDownFreetResponse = (downfreet: HydratedDocument<DownFreet>): Dow
     ...downfreetCopy,
     _id: downfreetCopy._id.toString(),
     author: username,
-    originalFreet: downfreetCopy.originalFreet._id.toString(),
+    // originalFreet: downfreetCopy.originalFreet._id.toString(),
+    originalFreet: downfreetCopy.originalFreet.toString(),
     dateCreated: formatDate(downfreet.dateCreated)
   };
 };

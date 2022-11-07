@@ -40,7 +40,8 @@ const constructReFreetResponse = (refreet: HydratedDocument<ReFreet>): ReFreetRe
     author: username,
     // THERE IS THE POTENTIAL TO CHANGE THE BELOW VAR TO THE ACTUAL FREET IN
     // IN THE FRONT END, ESPECIALLY FOR REFREET SINCE IT IS SUPPOSED TO BE THE ORIGINAL FREET THAT IS RECREATED
-    originalFreet:refreetCopy.originalFreet._id.toString(),
+    // originalFreet:refreetCopy.originalFreet._id.toString(),
+    originalFreet:refreetCopy.originalFreet.toString(),
     dateCreated: formatDate(refreet.dateCreated)
   };
 };

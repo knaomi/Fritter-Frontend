@@ -121,6 +121,19 @@ class LikeCollection {
   }
 
   /**
+   * Delete a like with given freetId created by the authorId.
+   *
+   * @param {string} freetId - The freetId of whose like to delete
+   * @param {string} authorId - The author of the like to delete
+   * @return {Promise<Boolean>} - true if the like has been deleted, false otherwise
+   */
+ static async deleteOnebyFreetID(freetId: Types.ObjectId | string, authorId:Types.ObjectId|string): Promise<boolean> {
+  const like = await LikeModel.deleteOne({originalFreet:freetId, authorId:authorId});
+  return like !== null;
+}
+
+
+  /**
    * Delete all the likes by the given author
    *
    * @param {string} authorId - The id of author of likes

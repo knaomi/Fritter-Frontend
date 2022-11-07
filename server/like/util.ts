@@ -37,7 +37,8 @@ const constructLikeResponse = (like: HydratedDocument<Like>): LikeResponse => {
     ...likeCopy,
     _id: likeCopy._id.toString(),
     author: username,
-    originalFreet:likeCopy.originalFreet._id.toString(),
+    // originalFreet:likeCopy.originalFreet._id.toString(),
+    originalFreet:likeCopy.originalFreet.toString(),
     dateCreated: formatDate(like.dateCreated)
   };
 };

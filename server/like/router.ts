@@ -70,7 +70,7 @@ router.get(
       return;
     }
     const authorLikes = await LikeCollection.findAllByUsername(req.query.author as string);
-    const response = authorLikes.map(util.constructLikeResponse);
+    const response = (authorLikes).map(util.constructLikeResponse);
     res.status(200).json(response);
   },
   [
@@ -135,15 +135,33 @@ router.post(
  *                 the like
  * @throws {404} - If the likeId is not valid
  */
+// router.delete(
+//   '/:likeId?',
+//   [
+//     userValidator.isUserLoggedIn,
+//     likeValidator.isLikeExists,
+//     likeValidator.isValidLikeModifier
+//   ],
+//   async (req: Request, res: Response) => {
+//     await LikeCollection.deleteOne(req.params.likeId);
+//     // await LikeCollection.deleteManybyExpiration();
+//     res.status(200).json({
+//       message: 'Your like was deleted successfully.'
+//     });
+//   }
+// );
+
 router.delete(
-  '/:likeId?',
+  '/:freetId?',
   [
     userValidator.isUserLoggedIn,
-    likeValidator.isLikeExists,
+    // likeValidator.isLikeExists,
+    freetValidator.isFreetExists,
     likeValidator.isValidLikeModifier
   ],
   async (req: Request, res: Response) => {
-    await LikeCollection.deleteOne(req.params.likeId);
+    const userId = (req.session.userId as string) ?? '';
+    await LikeCollection.deleteOnebyFreetID(req.params.freetId, userId);
     // await LikeCollection.deleteManybyExpiration();
     res.status(200).json({
       message: 'Your like was deleted successfully.'

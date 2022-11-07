@@ -142,7 +142,17 @@ class BookMarkCollection {
    static async deleteManybyBookMarkNestId(bookmarknestId: Types.ObjectId | string ):Promise<void>{
     await BookMarkModel.deleteMany({bookmarknestId})
   }  
-
+/**
+   * Delete a bookmark on given freetId created by the authorId.
+   *
+   * @param {string} freetId - The freetId of whose bookmark to delete
+   * @param {string} authorId - The author of the bookmark to delete
+   * @return {Promise<Boolean>} - true if the bookmark has been deleted, false otherwise
+   */
+ static async deleteOnebyFreetID(freetId: Types.ObjectId | string, authorId:Types.ObjectId|string): Promise<boolean> {
+  const bookmark = await BookMarkModel.deleteOne({originalFreet:freetId, authorId:authorId});
+  return bookmark !== null;
+}
 //  /**
 //    * Delete all the bookmarks on expired freets 
 //    *

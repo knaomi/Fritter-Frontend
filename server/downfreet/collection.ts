@@ -87,7 +87,17 @@ class DownFreetCollection {
     // Return DownFreetModel.find({authorId: author._id, expiringDate: {$gt: new Date()}}).populate('authorId');
     return DownFreetModel.find({authorId: author._id}).populate('authorId');
   }
-
+/**
+   * Delete a downfreet with given freetId created by the authorId.
+   *
+   * @param {string} freetId - The freetId of whose downfreet to delete
+   * @param {string} authorId - The author of the downfreet to delete
+   * @return {Promise<Boolean>} - true if the downfreet has been deleted, false otherwise
+   */
+ static async deleteOnebyFreetID(freetId: Types.ObjectId | string, authorId:Types.ObjectId|string): Promise<boolean> {
+  const downfreet = await DownFreetModel.deleteOne({originalFreet:freetId, authorId:authorId});
+  return downfreet !== null;
+}
   /**
    * Get all the DownFreets on a Freet
    *

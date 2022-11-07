@@ -23,6 +23,28 @@ const isValidNestname = (req: Request, res: Response, next: NextFunction) => {
     next();
 };
 
+const isValidNestnameQuery = async (req: Request, res: Response, next: NextFunction) => {
+  const nestnameRegex = /^\w+$/i;
+  const nest = await BookMarkNestCollection.findOneByNestName(req.query.nestname as string,
+     req.session.userId as string);
+  if (!nestnameRegex.test(req.query.nestname as string)) {
+    res.status(400).json({
+      error: 'Nestname must be a nonempty alphanumeric string.'
+    });
+    return;
+  }
+
+  if (!nest){
+    res.status(400).json({
+      error: 'Nestname must be a valid existing one.'
+    });
+    return;   
+
+  }
+
+  next();
+};
+
 /**
  * Checks if the freetid in req.body is valid.
  */
@@ -160,4 +182,5 @@ export {
   isValidBookMarkNestViewer,
   isValidBookMarkNestModifier,
   isValidFreetId,
+  isValidNestnameQuery,
 };

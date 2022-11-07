@@ -131,15 +131,33 @@ router.post(
  *                 the downfreet
  * @throws {404} - If the downfreetId is not valid
  */
+// router.delete(
+//   '/:downfreetId?',
+//   [
+//     userValidator.isUserLoggedIn,
+//     downfreetValidator.isDownFreetExists,
+//     downfreetValidator.isValidDownFreetModifier
+//   ],
+//   async (req: Request, res: Response) => {
+//     await DownFreetCollection.deleteOne(req.params.downfreetId);
+//     // Await DownFreetCollection.deleteManybyExpiration();
+//     res.status(200).json({
+//       message: 'Your downfreet was deleted successfully.'
+//     });
+//   }
+// );
+
 router.delete(
-  '/:downfreetId?',
+  '/:freetId?',
   [
     userValidator.isUserLoggedIn,
-    downfreetValidator.isDownFreetExists,
+    // downfreetValidator.isDownFreetExists,
+    freetValidator.isFreetExists,
     downfreetValidator.isValidDownFreetModifier
   ],
   async (req: Request, res: Response) => {
-    await DownFreetCollection.deleteOne(req.params.downfreetId);
+    const userId = (req.session.userId as string) ?? '';
+    await DownFreetCollection.deleteOnebyFreetID(req.params.freetId, userId);
     // Await DownFreetCollection.deleteManybyExpiration();
     res.status(200).json({
       message: 'Your downfreet was deleted successfully.'

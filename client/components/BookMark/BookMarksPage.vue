@@ -31,8 +31,8 @@ This is the default page of bookmarks which will only display the bookmark nests
             <!-- <span v-if="$store.state.nestfilter">
               by @{{ $store.state.nestfilter }}
             </span> -->
-            <GetNestsForm
-            ref="getNestsForm"
+            <!-- <GetNestsForm
+            ref="getNestsForm" -->
             />
           </h2>
         </div>
@@ -102,21 +102,51 @@ This is the default page of bookmarks which will only display the bookmark nests
 <script>
 import NestComponent from '@/components/BookMark/NestComponent.vue';
 import CreateNestForm from '@/components/BookMark/CreateNestForm.vue';
-import GetNestsForm from '@/components/BookMark/GetNestsForm.vue';
+// import GetNestsForm from '@/components/BookMark/GetNestsForm.vue';
 import GetNestFreetsForm from '@/components/BookMark/GetNestFreetsForm.vue';
 import FreetComponent from '@/components/Freet/FreetComponent.vue';
 
 
 export default {
   name: 'BookMarkPage',
-  components: {NestComponent, GetNestsForm, CreateNestForm, GetNestFreetsForm,
+  components: {NestComponent, CreateNestForm, GetNestFreetsForm,
         FreetComponent},
   mounted() {
-    this.$refs.getNestsForm.submit();
+    // this.$refs.getNestsForm.submit();
+
     this.$refs.getNestFreetsForm.submit();
     this.nestslost();
+    // this.getNests();
   },
   methods:{
+    // async getNests(){
+    //  const url = `/api/bookmarknests?nestname=${this.$store.state.nestfilter}`;
+    //   try {
+    //     const r = await fetch(url);
+    //     const res = await r.json();
+    //     if (!r.ok) {
+    //       throw new Error(res.error);
+    //     }
+
+    //     this.$store.commit('updateNests', res);
+    //   } catch (e) {
+    //     // NOT NEEDED SINCE THE FILTERING OPTION IS NOT AVAILABLE FOR FREET DRAFT
+    //     if (this.value === this.$store.state.nestfilter) {
+    //       // This section triggers if you filter to a user but they
+    //       // change their username when you refresh
+    //       this.$store.commit('updateNestFilter', null);
+    //       this.value = ''; // Clear filter to show all users' freets
+    //       this.$store.commit('refreshNests');
+    //     } else {
+    //       // Otherwise reset to previous fitler
+    //       this.value = this.$store.state.nestfilter;
+    //     }
+
+    //     this.$set(this.alerts, e, 'error');
+    //     setTimeout(() => this.$delete(this.alerts, e), 3000);
+    //   }     
+    // },
+    
     nestslost(){
       console.log("what happened to the nests?", this.$store.state.nests)
     }

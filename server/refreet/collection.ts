@@ -90,6 +90,18 @@ class ReFreetCollection {
     return refreet !== null;
   }
 
+/**
+   * Delete a refreet with given freetId created by the authorId.
+   *
+   * @param {string} freetId - The freetId of whose refreet to delete
+   * @param {string} authorId - The author of the refreet to delete
+   * @return {Promise<Boolean>} - true if the refreet has been deleted, false otherwise
+   */
+ static async deleteOnebyFreetID(freetId: Types.ObjectId | string, authorId:Types.ObjectId|string): Promise<boolean> {
+  const refreet = await ReFreetModel.deleteOne({originalFreet:freetId, authorId:authorId});
+  return refreet !== null;
+}
+
   /**
    * Delete all the refreets by the given author
    *

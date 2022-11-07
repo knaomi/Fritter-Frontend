@@ -145,15 +145,32 @@ router.post(
  *                 the bookmark
  * @throws {404} - If the bookmarkId is not valid
  */
+// router.delete(
+//   '/:bookmarkId?',
+//   [
+//     userValidator.isUserLoggedIn,
+//     bookmarkValidator.isBookMarkExists,
+//     bookmarkValidator.isValidBookMarkModifier
+//   ],
+//   async (req: Request, res: Response) => {
+//     await BookMarkCollection.deleteOne(req.params.bookmarkId.toString());
+//     // await BookMarkCollection.deleteManybyExpiration();
+//     res.status(200).json({
+//       message: 'Your bookmark was deleted successfully.'
+//     });
+//   }
+// );
+
 router.delete(
-  '/:bookmarkId?',
+  '/:freetId?',
   [
     userValidator.isUserLoggedIn,
     bookmarkValidator.isBookMarkExists,
     bookmarkValidator.isValidBookMarkModifier
   ],
   async (req: Request, res: Response) => {
-    await BookMarkCollection.deleteOne(req.params.bookmarkId.toString());
+    const userId = (req.session.userId as string) ?? '';
+    await BookMarkCollection.deleteOnebyFreetID(req.params.freetId, userId);
     // await BookMarkCollection.deleteManybyExpiration();
     res.status(200).json({
       message: 'Your bookmark was deleted successfully.'
