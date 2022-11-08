@@ -159,7 +159,7 @@ const store = new Vuex.Store({
        * Request the server for the currently available refreets.
        */
       // const url = state.filter ? `/api/users/${state.filter}/refreets` : '/api/refreets';
-      const url = state.filter ? `/api/refreets/?author=${state.refreetfilter}` : '/api/refreets';
+      const url = state.refreetfilter ? `/api/refreets/?author=${state.refreetfilter}` : '/api/refreets';
       const res = await fetch(url).then(async r => r.json());
       state.refreets = res;
     },
@@ -184,7 +184,7 @@ const store = new Vuex.Store({
        * Request the server for the currently available downfreets.
        */
       // const url = state.downfreetfilter ? `/api/users/${state.downfreetfilter}/downfreets` : '/api/downfreets';
-      const url = state.filter ? `/api/downfreets/?author=${state.downfreetfilter}` : '/api/downfreets';
+      const url = state.downfreetfilter ? `/api/downfreets/?author=${state.downfreetfilter}` : '/api/downfreets';
       const res = await fetch(url).then(async r => r.json());
       state.downfreets = res;
     },
@@ -210,7 +210,7 @@ const store = new Vuex.Store({
        * Request the server for the currently available likes.
        */
       // const url = state.likefilter ? `/api/users/${state.likefilter}/likes` : '/api/likes';
-      const url = state.filter ? `/api/likes/?author=${state.likefilter}` : '/api/likes';
+      const url = state.likefilter ? `/api/likes/?author=${state.likefilter}` : '/api/likes';
       const res = await fetch(url).then(async r => r.json());
       state.likes = res;
     },

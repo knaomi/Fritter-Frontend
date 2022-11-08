@@ -33,11 +33,16 @@ export default {
   computed:{
     isUserLikesFreet(){
       
-      const likesonfreet= (this.$store.state.likes).filter(item => item.originalFreet === this.freet._id)
+      // const likesonfreet= (this.$store.state.likes).filter(item => item.originalFreet === this.freet._id)
       
-      const authorsOfLikesOnFreet = likesonfreet.filter(item => item.author.toString() === this.freet.author.toString())
-      return  authorsOfLikesOnFreet.length !== 0;
-
+      // const authorsOfLikesOnFreet = likesonfreet.filter(item => item.author.toString() === this.freet.author.toString())
+      // return  authorsOfLikesOnFreet.length !== 0;
+      // return (this.getLikesbyAuthor.map(freet =>freet.author.username)).includes(this.$store.state.username)
+      // console.log("new code",this.getLikesbyAuthor() )
+      this.getLikesbyAuthor()
+      console.log(this.$store.state.likes)
+      const freetids = (this.$store.state.likes).map(freet =>freet._id)
+      return (freetids).includes(this.freet._id)
     }
   },
   props: {
@@ -50,7 +55,47 @@ export default {
 
 // TODO: IMPLEMEMT THE METHODS BELOW AND MAKE SURE THAT THE FREET IS UPDATED EFFECTIVELY
   methods:{
+    getLikesbyAuthor(){
+      const params = {
+        method: 'GET',
+        callback: () => {
+          this.$store.commit('alert', {
+            message: 'Successfully got all likedfreet!', status: 'success'
+          });
+        }
+      };
+      this.getrequest(params); 
+    },
+    async getrequest(params) {
+      /**
+       * Submits a request to the like's endpoint
+       * @param params - Options for the request
+       * @param params.body - Body for the request, if it exists
+       * @param params.callback - Function to run if the the request succeeds
+       */
+      const options = {
+        method: params.method, headers: {'Content-Type': 'application/json'}
+      };
+      
+      if (params.body) {
+        options.body = params.body;
+      }
 
+      try {
+        const r = await fetch(params.method === `/api/likes?authorId=${this.store.state.username}`, options);
+        if (!r.ok) {
+          const res = await r.json();
+          throw new Error(res.error);
+        }
+        this.$store.commit('refreshLikes');
+        this.$store.commit('refreshDownFreets');
+
+        params.callback();
+      } catch (e) {
+        this.$set(this.alerts, e, 'error');
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
+      }
+    },  
     addLike(){
     /**
      * Creates a new like for the freet by the logged in user

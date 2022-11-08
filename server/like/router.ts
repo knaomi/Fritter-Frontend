@@ -6,6 +6,8 @@ import * as userValidator from '../user/middleware';
 import * as likeValidator from './middleware';
 import * as freetValidator from '../freet/middleware';
 import * as util from './util';
+import * as freetutil from '../freet/util';
+import FreetCollection from '../freet/collection';
 
 const router = express.Router();
 
@@ -58,7 +60,10 @@ router.get(
     // res.status(200).json(response);
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
     const authorLikes = await LikeCollection.findAllByUserId(userId);
-    const response = authorLikes.map(util.constructLikeResponse);
+    // const response = authorLikes.map(util.constructLikeResponse);
+    // const response = (authorLikes.map(item => item?item.originalFreet: item)).map(freetutil.constructFreetResponse);
+    const freets = await Promise.all(authorLikes.map(item => FreetCollection.findOne(item.originalFreet)));
+    const response = freets.map(freetutil.constructFreetResponse);
     res.status(200).json(response);
   },
   [

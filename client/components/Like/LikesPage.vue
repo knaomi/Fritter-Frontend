@@ -65,13 +65,14 @@ export default {
   name: 'LikePage',
   components: {GetLikesForm, FreetComponent},
   mounted() {
-    this.actuallikedfreet()
+    this.actuallikedfreet();
     this.$refs.getLikesForm.submit();
+     this.$store.commit('refreshLikes');
     
   },
   methods:{
     actuallikedfreet(){
-      console.log("in like page", (this.$store.state.likes[0]).originalFreet)
+      console.log("in like page", (this.$store.state.likes))
       // console.log("on likes page convetting to frret", this.$store.getters.getFreetfromFreetId(this.$store.likes[0].originalFreet))
     }
   }
