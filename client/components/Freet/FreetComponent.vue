@@ -104,7 +104,10 @@ export default {
   components:{
     CreateLikeComponent,CreateDownFreetComponent,CreateReFreetComponent,CreateBookMarkComponent,
   },
-
+  mounted() {
+    this.$store.commit('refreshLikes');
+    
+  },
   data() {
     return {
       editing: false, // Whether or not this freet is in edit mode
