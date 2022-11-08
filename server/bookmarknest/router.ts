@@ -50,32 +50,23 @@ router.get(
 
   ],
   async (req: Request, res: Response, next:NextFunction) => {
-    console.log("got to the nestrouter step 1", req.query.nestname)
     if (req.query.nestname !== undefined) {
       next();
       return;
     } 
-    console.log("begin execution in nest router with no nestname as query")
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
     const authorBookMarkNests = await BookMarkNestCollection.findAllByUserId(userId);
-    console.log("finsihed fetching nests with no nestname query", authorBookMarkNests)
     const response = authorBookMarkNests.map(util.constructBookMarkNestResponse);
-    console.log("proceeding with return res in nest router, final step")
     res.status(200).json(response);
   },
   [
     // bookmarknestValidator.isValidNestnameQuery,
   ],
   async (req: Request, res: Response) => {
-    console.log("got to query portion of nest router if nestname is provided", typeof (req.query.nestname))
-    console.log("request given in faulty patt", req.query)
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
     const nestId = await BookMarkNestCollection.findOneByNestName(req.query.nestname as string, userId);
-    console.log("executed line 73")
     const Nestfreets = await BookMarkCollection.findAllByNestId(nestId._id.toString());
-    console.log("got all info dfrom data badse ifvquery nestname is provided")
     const response = Nestfreets.map(bookmarkutil.constructBookMarkResponse);
-    console.log("reached router here well, about to return data final step", Nestfreets)
     res.status(200).json(response);
   }, 
   
