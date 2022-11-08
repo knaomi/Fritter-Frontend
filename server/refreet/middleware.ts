@@ -57,7 +57,8 @@ const isValidFreetId = async (req: Request, res: Response, next: NextFunction) =
  * Checks if the current user is the author of the refreet whose freetId is in req.params
  */
 const isValidReFreetModifier = async (req: Request, res: Response, next: NextFunction) => {
-  const refreet = await ReFreetCollection.findOne(req.params.refreetId);
+  // const refreet = await ReFreetCollection.findOne(req.params.refreetId);
+  const refreet = await ReFreetCollection.findOneByFreetId(req.params.freetId, req.session.userId)
   const userId = refreet.authorId._id;
   if (req.session.userId !== userId.toString()) {
     res.status(403).json({

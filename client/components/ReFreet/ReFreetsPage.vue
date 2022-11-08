@@ -67,6 +67,7 @@ export default {
   components: {GetReFreetsForm, FreetComponent},
   mounted() {
     this.$refs.getReFreetsForm.submit();
+    this.$store.commit('refreshReFreets');
   }
 };
 </script>

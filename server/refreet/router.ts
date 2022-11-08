@@ -5,6 +5,8 @@ import * as userValidator from '../user/middleware';
 import * as refreetValidator from './middleware';
 import * as freetValidator from '../freet/middleware';
 import * as util from './util';
+import * as freetutil from '../freet/util';
+import FreetCollection from '../freet/collection';
 
 const router = express.Router();
 
@@ -46,7 +48,9 @@ router.get(
     }
 
     const allReFreets = await ReFreetCollection.findAll();
-    const response = allReFreets.map(util.constructReFreetResponse);
+    // const response = allReFreets.map(util.constructReFreetResponse);
+    const freets = await Promise.all(allReFreets.map(item => FreetCollection.findOne(item.originalFreet)));
+    const response = freets.map(freetutil.constructFreetResponse);
     res.status(200).json(response);
   },
   [

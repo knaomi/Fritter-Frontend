@@ -43,6 +43,20 @@ class ReFreetCollection {
   }
 
   /**
+   * Find a refreet by freetId for a given author
+   * @param {string} freetId - The id of the originalfreet
+   * @param {string} authorId - The id of the author of the like on freet to find
+   * @return {Promise<HydratedDocument<ReFreet>> | Promise<null> } - The refreet on the freet by author, if any
+  */
+ static async findOneByFreetId(freetId: string, authorId: Types.ObjectId | string): Promise<HydratedDocument<ReFreet>> {
+  const author = await UserCollection.findOneByUserId(authorId);
+  const freet = await FreetCollection.findOne(freetId);
+  return ReFreetModel.findOne({originalFreet: freet, authorId: author._id}).populate('authorId');
+
+
+}
+
+  /**
    * Get all the refreets in the database (i.e. on all Freets by all users)
    *
    * @return {Promise<HydratedDocument<ReFreet>[]>} - An array of all of the refreets
