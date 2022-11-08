@@ -6,7 +6,7 @@ of another user
   <main>
     <section v-if="$store.state.username">
       <header>
-        <h2>Welcome @{{ $store.state.username }} to the home of disapproved freets</h2>
+        <h2>Welcome @{{ $store.state.username }} to the corner of disapproved freets</h2>
       </header>
     </section>
     <section v-else>
@@ -45,9 +45,9 @@ of another user
         v-if="$store.state.downfreets.length"
       >
         <FreetComponent
-          v-for="downfreetedfreet in $store.state.downfreets"
-          :key="downfreetedfreet.id"
-          :freet="downfreetfreet"
+          v-for="freet in $store.state.downfreets"
+          :key="freet.id"
+          :freet="freet"
         />
       </section>
       <article
@@ -61,8 +61,6 @@ of another user
 
 <script>
 import FreetComponent from '@/components/Freet/FreetComponent.vue';
-// the import below will actually be used in the Freet Component
-// import CreateDownFreetComponent from '@/components/DownFreet/CreateDownFreetComponent.vue';
 import GetDownFreetsForm from '@/components/DownFreet/GetDownFreetsForm.vue';
 
 
@@ -71,6 +69,10 @@ export default {
   components: {GetDownFreetsForm, FreetComponent},
   mounted() {
     this.$refs.getDownFreetsForm.submit();
+    this.$store.commit('refreshLikes');
+    this.$store.commit('refreshDownFreets');
+
+
   }
 };
 </script>

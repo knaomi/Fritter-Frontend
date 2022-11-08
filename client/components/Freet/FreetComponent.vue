@@ -106,6 +106,7 @@ export default {
   },
   mounted() {
     this.$store.commit('refreshLikes');
+    this.$store.commit('refreshDownFreets');
     
   },
   data() {

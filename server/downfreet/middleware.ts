@@ -58,7 +58,9 @@ const isValidFreetId = async (req: Request, res: Response, next: NextFunction) =
  * Checks if the current user is the author of the downfreet whose freetId is in req.params
  */
 const isValidDownFreetModifier = async (req: Request, res: Response, next: NextFunction) => {
-  const downfreet = await DownFreetCollection.findOne(req.params.downfreetId);
+  // const downfreet = await DownFreetCollection.findOne(req.params.downfreetId);
+  const downfreet = await DownFreetCollection.findOneByFreetId(req.params.freetId, req.session.userId)
+
   const userId = downfreet.authorId._id;
   if (req.session.userId !== userId.toString()) {
     res.status(403).json({

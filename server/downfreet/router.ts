@@ -4,9 +4,11 @@ import DownFreetCollection from './collection';
 import * as userValidator from '../user/middleware';
 import * as downfreetValidator from './middleware';
 import * as freetValidator from '../freet/middleware';
-// Import * as likeValidator from '../like/middleware';
-// import LikeCollection from '../like/collection';
+import * as likeValidator from '../like/middleware';
+import LikeCollection from '../like/collection';
 import * as util from './util';
+import * as freetutil from '../freet/util';
+import FreetCollection from '../freet/collection';
 
 // TODO: RETURN THE EXPIRATION THING ONCE FREET HAS IT TOO
 // RETURN THE LIKECOLLECTION ONCE LIKE IS IMPLEMENTED TOO
@@ -57,7 +59,9 @@ router.get(
 
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
     const authorDownFreets = await DownFreetCollection.findAllByUserId(userId);
-    const response = authorDownFreets.map(util.constructDownFreetResponse);
+    // const response = authorDownFreets.map(util.constructDownFreetResponse);
+    const freets = await Promise.all(authorDownFreets.map(item => FreetCollection.findOne(item.originalFreet)));
+    const response = freets.map(freetutil.constructFreetResponse);
     res.status(200).json(response);
   },
   [
@@ -103,21 +107,21 @@ router.post(
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
     const downfreet = await DownFreetCollection.addOne(userId, req.body.freetid);
-    // Const likeOnFreet = await LikeCollection.findOneByFreetId(req.body.freetid, userId);
-    // if (likeOnFreet){
-    //   await LikeCollection.deleteOne(likeOnFreet._id);
-    //   res.status(201).json({
-    //     message: 'Downfreet was created successfully and \n' +
-    //       'Your previous like was canceled successfully by downfreet',
-    //   });
-    // }
+    const likeOnFreet = await LikeCollection.findOneByFreetId(req.body.freetid, userId);
+    if (likeOnFreet){
+      await LikeCollection.deleteOne(likeOnFreet._id);
+      res.status(201).json({
+        message: 'Downfreet was created successfully and \n' +
+          'Your previous like was canceled successfully by downfreet',
+      });
+    }
     // VALID CODE , DO NOT DELETE UNCOMMENTED OUT CODE SINCE IT WILL BE USED BY LIKE
-    // else{
+    else{
     res.status(201).json({
       message: 'Your downfreet was created successfully.',
       downfreet: util.constructDownFreetResponse(downfreet)
     });
-    // } // UNCOMMENT OUT THE ELSE ONCE LIKE IS IMPLEMENTED
+    } 
   }
 );
 
