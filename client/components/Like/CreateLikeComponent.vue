@@ -43,7 +43,6 @@ export default {
       // return (this.getLikesbyAuthor.map(freet =>freet.author.username)).includes(this.$store.state.username)
       // console.log("new code",this.getLikesbyAuthor() )
       this.getLikesbyAuthor()
-      console.log(this.$store.state.likes)
       const freetids = (this.$store.state.likes).map(freet =>freet._id)
       return (freetids).includes(this.freet._id)
     }
