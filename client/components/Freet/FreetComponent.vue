@@ -105,8 +105,8 @@ export default {
     CreateLikeComponent,CreateDownFreetComponent,CreateReFreetComponent,CreateBookMarkComponent,
   },
   mounted() {
-    this.$store.commit('refreshLikes');
-    this.$store.commit('refreshDownFreets');
+    // this.$store.commit('refreshLikes');
+    // this.$store.commit('refreshDownFreets');
     
   },
   data() {
