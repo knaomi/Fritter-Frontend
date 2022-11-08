@@ -1,3 +1,5 @@
+<!-- Reusable component representing a single like and its actions -->
+
 <template>
     <div
         v-if="!this.isUserLikesFreet"
