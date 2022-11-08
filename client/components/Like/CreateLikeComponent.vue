@@ -31,6 +31,7 @@ export default {
   },
   mounted(){
     this.$store.commit('refreshLikes');
+    this.$store.commit('refreshDownFreets');
   },
   computed:{
     isUserLikesFreet(){
