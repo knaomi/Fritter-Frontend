@@ -59,8 +59,9 @@ const isValidFreetId = async (req: Request, res: Response, next: NextFunction) =
  */
 const isValidDownFreetModifier = async (req: Request, res: Response, next: NextFunction) => {
   // const downfreet = await DownFreetCollection.findOne(req.params.downfreetId);
+  
   const downfreet = await DownFreetCollection.findOneByFreetId(req.params.freetId, req.session.userId)
-
+  console.log('downfreetinmiddleware', downfreet)
   const userId = downfreet.authorId._id;
   if (req.session.userId !== userId.toString()) {
     res.status(403).json({

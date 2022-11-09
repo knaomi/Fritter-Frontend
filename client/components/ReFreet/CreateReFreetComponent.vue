@@ -37,7 +37,7 @@ export default {
       }
   },
   mounted(){
-    this.$store.commit('refreshReFreets');
+    // this.$store.commit('refreshReFreets');
   },
   computed:{
     isUserReFreetsFreet(){
@@ -82,11 +82,13 @@ export default {
 
       try {
         const r = await fetch(`/api/refreets?authorId=${this.store.state.username}`, options);
+        const res = await r.json();
         if (!r.ok) {
-          const res = await r.json();
+          // const res = await r.json();
           throw new Error(res.error);
         }
-        this.$store.commit('refreshReFreets');
+        // this.$store.commit('refreshReFreets');
+        this.$store.commit('updateReFreets', res)
 
         params.callback();
       } catch (e) {

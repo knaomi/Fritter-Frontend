@@ -9,7 +9,7 @@ Vue.use(Vuex);
  */
 const store = new Vuex.Store({
   state: {
-    test: "I hope on refreshing page I am around",
+    // test: "I hope on refreshing page I am around",
     username: null, // Username of the logged in user
     filter: null, // Username to filter shown freets by (null = show all)
     freets: [], // All freets created in the app
@@ -19,69 +19,11 @@ const store = new Vuex.Store({
     downfreets:[], // all the downfreets created by a specific user
     likefilter:null, //Username to filter shown likes by (null = show all by logged in user)
     likes: [], // all the likes created by a specific user
-    nestfilter:null, // nestname to filter shown bookmarked freets by (null =  show all by logged in user)
-    nests:[], // all the nests belonging to the logged in user
+    // nestfilter:null, // nestname to filter shown bookmarked freets by (null =  show all by logged in user)
+    // nests:[], // all the nests belonging to the logged in user
     freetdrafts: [], // all freetdrafts created by the logged in user
     bookmarks:[], // all the bookmarked freets which may be specific to a nest
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
-  },
-
-  getters:{
-    getNumRefreetsOnFreet(state,freet){
-      // TODO: PASS ARGS TO GETTERS BY RETURNING a functiom that can take in args
-      
-      return 0
-    },
-    getNumLikesOnFreet(state, freet){
-      return 0
-    },
-    getNumDownFreetsOnFreet(state, freet){
-      return 0
-    },
-    getNumBookMarksOnFreet(state, freet){
-      return 0
-    },
-    isUserReFreetsFreet(state, freet){
-      return false
-    },
-    isUserLikesFreet(state, freet){
-    
-      // console.log("in store", state.likes)
-      // if (!state.likes.length){
-      //   return false;
-      // }
-      // for (const like of state.likes){
-      //   if (freet.id.toString() === like.originalFreet){
-      //     return true;
-      //   }
-      // }
-      // return false;
-      //   function innerfunction(state:Object, freet:Object){
-      //     console.log("store likes after liking", freet)
-      //     const likesonfreet= (state.likes).filter(item => item.originalFreet === freet._id)
-      //     console.log("store likes after liking", likesonfreet)
-      //     const authorsOfLikesOnFreet = likesonfreet.filter(item => item.author.toString() === freet.author.toString())
-      //     // console.log("authorsOfLikesOnFreet",authorsOfLikesOnFreet)
-      //     return  authorsOfLikesOnFreet.includes(state.username)
-    
-      //   }
-      // return innerfunction
-      // console.log("store likes after liking", freet)
-      // const likesonfreet= (state.likes).filter(item => item.originalFreet === freet._id)
-      // console.log("store likes after liking", likesonfreet)
-      // const authorsOfLikesOnFreet = likesonfreet.filter(item => item.author.toString() === freet.author.toString())
-      // // console.log("authorsOfLikesOnFreet",authorsOfLikesOnFreet)
-      // return  authorsOfLikesOnFreet.includes(state.username)
-      return false;
-
-    },
-    isUserDownFreetsFreet(state, freet){
-      return false
-    },
-    isUserBookMarksFreet(state, freet){
-      return false
-    }
-
   },
   
   mutations: {
@@ -120,7 +62,7 @@ const store = new Vuex.Store({
        * Request the server for the currently available freets.
        */
       // const url = state.filter ? `/api/users/${state.filter}/freets` : '/api/freets';
-      const url = state.refreetfilter ? `/api/refreets/?author=${state.filter}` : '/api/refreets';
+      const url = state.filter ? `/api/freets/?author=${state.filter}` : '/api/freets';
       const res = await fetch(url).then(async r => r.json());
       state.freets = res;
     },
@@ -177,8 +119,6 @@ const store = new Vuex.Store({
        */
       state.downfreets = downfreets;
     },
-
-    // TODO: CHANGE THE URL BELOW TO CORRECTLY INDICATE WHAT IS IN THE SERVER
     async refreshDownFreets(state) {
       /**
        * Request the server for the currently available downfreets.
@@ -204,7 +144,6 @@ const store = new Vuex.Store({
       state.likes = likes;
     },
 
-    // TODO: CHANGE THE URL BELOW TO CORRECTLY INDICATE WHAT IS IN THE SERVER
     async refreshLikes(state) {
       /**
        * Request the server for the currently available likes.
@@ -215,29 +154,29 @@ const store = new Vuex.Store({
       state.likes = res;
     },
 
-    updateNestFilter(state, nestfilter) {
-      /**
-       * Update the stored nests filter to the specified one.
-       * @param nestfilter - Nestname of the nest to filter freets by
-       */
-      state.nestfilter = nestfilter;
-    },
+    // updateNestFilter(state, nestfilter) {
+    //   /**
+    //    * Update the stored nests filter to the specified one.
+    //    * @param nestfilter - Nestname of the nest to filter freets by
+    //    */
+    //   state.nestfilter = nestfilter;
+    // },
 
-    updateNests(state, nests) {
-      /**
-       * Update the stored nests to the provided nests.
-       * @param nests - Nests to store
-       */
-      state.nests = nests;
-    },
-    async refreshNests(state) {
-      /**
-       * Request the server for the currently available nests.
-       */
-      const url = '/api/bookmarknests';
-      const res = await fetch(url).then(async r => r.json());
-      state.nests = res;
-    },
+    // updateNests(state, nests) {
+    //   /**
+    //    * Update the stored nests to the provided nests.
+    //    * @param nests - Nests to store
+    //    */
+    //   state.nests = nests;
+    // },
+    // async refreshNests(state) {
+    //   /**
+    //    * Request the server for the currently available nests.
+    //    */
+    //   const url = '/api/bookmarknests';
+    //   const res = await fetch(url).then(async r => r.json());
+    //   state.nests = res;
+    // },
     updateBookMarks(state, bookmarks) {
       /**
        * Update the stored bookmarks to the provided bookmarks.
@@ -247,9 +186,10 @@ const store = new Vuex.Store({
     },
     async refreshBookMarks(state) {
       /**
-       * Request the server for the currently available bookmarked freets.
+       * Request the server for the currently available bookmarked freets in specified nest.
        */
-      const url = state.nestfilter ? `/api/bookmarknests?nestname=${state.nestfilter}` : '/api/bookmarks';
+      // const url = state.nestfilter ? `/api/bookmarknests?nestname=${state.nestfilter}` : '/api/bookmarks';
+      const url = '/api/bookmarks';
       const res = await fetch(url).then(async r => r.json());
       state.bookmarks = res;
     },

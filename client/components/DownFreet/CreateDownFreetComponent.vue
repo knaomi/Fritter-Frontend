@@ -37,8 +37,8 @@ export default {
       }
   },
   mounted(){
-    this.$store.commit('refreshDownFreets');
-    this.$store.commit('refreshLikes');
+    // this.$store.commit('refreshDownFreets');
+    // this.$store.commit('refreshLikes');
   },
 
   computed:{
@@ -85,11 +85,12 @@ export default {
 
       try {
         const r = await fetch(`/api/downfreets?authorId=${this.store.state.username}`, options);
+        const res = await r.json();
         if (!r.ok) {
-          const res = await r.json();
           throw new Error(res.error);
         }
-        this.$store.commit('refreshDownFreets');
+        // this.$store.commit('refreshDownFreets');
+        this.$store.commit('updateDownFreets', res)
         this.$store.commit('refreshLikes');
 
         params.callback();

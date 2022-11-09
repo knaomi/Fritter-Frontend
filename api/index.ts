@@ -14,7 +14,7 @@ import {refreetRouter} from '../server/refreet/router';
 import {downfreetRouter} from '../server/downfreet/router';
 import {likeRouter} from '../server/like/router';
 import {bookmarkRouter} from '../server/bookmark/router';
-import {bookmarknestRouter} from '../server/bookmarknest/router';
+// import {bookmarknestRouter} from '../server/bookmarknest/router';
 import MongoStore from 'connect-mongo';
 
 // Load environmental variables
@@ -79,7 +79,7 @@ app.use('/api/freets', freetRouter);
 app.use('/api/freetdrafts', freetdraftRouter);
 app.use('/api/downfreets', downfreetRouter);
 app.use('/api/bookmarks', bookmarkRouter);
-app.use('/api/bookmarknests', bookmarknestRouter);
+// app.use('/api/bookmarknests', bookmarknestRouter);
 app.use('/api/refreets', refreetRouter);
 app.use('/api/likes', likeRouter);
 

@@ -30,8 +30,8 @@ export default {
       }
   },
   mounted(){
-    this.$store.commit('refreshLikes');
-    this.$store.commit('refreshDownFreets');
+    // this.$store.commit('refreshLikes');
+    // this.$store.commit('refreshDownFreets');
   },
   computed:{
     isUserLikesFreet(){
@@ -91,11 +91,13 @@ export default {
 
       try {
         const r = await fetch(`/api/likes?authorId=${this.store.state.username}`, options);
+        const res = await r.json();
         if (!r.ok) {
-          const res = await r.json();
+          
           throw new Error(res.error);
         }
-        this.$store.commit('refreshLikes');
+        // this.$store.commit('refreshLikes');
+        this.$store.commit('updateLikes', res)
         this.$store.commit('refreshDownFreets');
 
         params.callback();

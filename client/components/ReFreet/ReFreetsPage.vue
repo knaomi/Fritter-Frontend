@@ -4,7 +4,7 @@
   <main>
     <section v-if="$store.state.username">
       <header>
-        <h2>Welcome @{{ $store.state.username }} to the home of freets that users wanted to reshare through refreeting</h2>
+        <!-- <h2>Welcome @{{ $store.state.username }} to the home of freets that users wanted to reshare through refreeting</h2> -->
       </header>
     </section>
     <section v-else>
