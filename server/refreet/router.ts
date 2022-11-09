@@ -41,7 +41,7 @@ router.get(
   '/',
   async (req: Request, res: Response, next: NextFunction) => {
     // Check if authorId or freetId query parameter was supplied
-    console.log("I am here in router 1");
+    // console.log("I am here in router 1");
     if ((req.query.author !== undefined) || (req.query.freet !== undefined) ) {
       next();
       return;
@@ -57,7 +57,7 @@ router.get(
     refreetValidator.isAuthorExists
   ],
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log("I am here in router 2");
+    // console.log("I am here in router 2");
     if (req.query.freet !== undefined){
       next();
       return;
@@ -70,7 +70,7 @@ router.get(
     freetValidator.isFreetQueryExists,
   ],
   async (req: Request, res: Response) => {
-    console.log("I am here in router 3");
+    // console.log("I am here in router 3");
     const freetReFreets = await ReFreetCollection.findAllbyFreetId(req.query.freet as string);
     res.status(200).json(freetReFreets);
   },
@@ -138,7 +138,7 @@ router.delete(
     userValidator.isUserLoggedIn,
     // refreetValidator.isReFreetExists,
     freetValidator.isFreetExists,
-    refreetValidator.isValidReFreetModifier
+    // refreetValidator.isValidReFreetModifier
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? '';
