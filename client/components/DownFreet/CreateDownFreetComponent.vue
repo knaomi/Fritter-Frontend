@@ -45,12 +45,17 @@ export default {
     isUserDownFreetsFreet(){
 
       this.getDownFreetsbyAuthor()
-      const freetids = (this.$store.state.downfreets).map(freet =>freet._id)
-      return (freetids).includes(this.freet._id)
+      // const freetids =  (this.$store.state.downfreets).map(freet =>freet._id)
+      // return (freetids).includes(this.freet._id)
+      const freetsids = [];
+      for (const freet of this.$store.state.downfreets){
+        freetsids.push(freet._id)
+      };
+      return freetsids.includes(this.freet._id);
+     
     }
   },
 
-// TODO UNCOMMENT OUT THE CODE IN ROUTER THAT REMOVES LIKE BEFORE DOWNFREETING
   methods:{
    getDownFreetsbyAuthor(){
       const params = {
@@ -79,7 +84,7 @@ export default {
       }
 
       try {
-        const r = await fetch(params.method === `/api/downfreets?authorId=${this.store.state.username}`, options);
+        const r = await fetch(`/api/downfreets?authorId=${this.store.state.username}`, options);
         if (!r.ok) {
           const res = await r.json();
           throw new Error(res.error);

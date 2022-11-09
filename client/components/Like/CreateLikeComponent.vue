@@ -43,8 +43,14 @@ export default {
       // return (this.getLikesbyAuthor.map(freet =>freet.author.username)).includes(this.$store.state.username)
       // console.log("new code",this.getLikesbyAuthor() )
       this.getLikesbyAuthor()
-      const freetids = (this.$store.state.likes).map(freet =>freet._id)
-      return (freetids).includes(this.freet._id)
+      // const freetids = (this.$store.state.likes).map(freet =>freet._id)
+      // return (freetids).includes(this.freet._id)
+      const freetsids = [];
+      for (const freet of this.$store.state.likes){
+        freetsids.push(freet._id)
+      };
+      return freetsids.includes(this.freet._id);
+     
     }
   },
   props: {
@@ -84,7 +90,7 @@ export default {
       }
 
       try {
-        const r = await fetch(params.method === `/api/likes?authorId=${this.store.state.username}`, options);
+        const r = await fetch(`/api/likes?authorId=${this.store.state.username}`, options);
         if (!r.ok) {
           const res = await r.json();
           throw new Error(res.error);

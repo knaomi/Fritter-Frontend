@@ -44,6 +44,11 @@ export default {
     this.getReFreetsbyAuthor()
       const freetids = (this.$store.state.refreets).map(freet =>freet._id)
       return (freetids).includes(this.freet._id)
+      // const freetsids = [];
+      // for (const freet of this.$store.state.downfreets){
+      //   freetsids.push(freet._id)
+      // };
+      // return freetsids.includes(this.freet._id);
     },
   },
 
@@ -76,7 +81,7 @@ export default {
       }
 
       try {
-        const r = await fetch(params.method === `/api/refreets?authorId=${this.store.state.username}`, options);
+        const r = await fetch(`/api/refreets?authorId=${this.store.state.username}`, options);
         if (!r.ok) {
           const res = await r.json();
           throw new Error(res.error);
