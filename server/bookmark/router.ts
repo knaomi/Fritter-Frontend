@@ -3,11 +3,12 @@ import express from 'express';
 import BookMarkCollection from './collection';
 import * as userValidator from '../user/middleware';
 import * as bookmarkValidator from './middleware';
-import * as bookmarknestValidator from '../bookmarknest/middleware';
 import * as freetValidator from '../freet/middleware';
 import * as util from './util';
 import UserCollection from '../user/collection';
-import BookMarkNestCollection from '../bookmarknest/collection';
+import * as freetutil from '../freet/util';
+import FreetCollection from '../freet/collection';
+
 
 const router = express.Router();
 
@@ -39,7 +40,7 @@ const router = express.Router();
  * @return 
  */
  
-router.get(
+ router.get(
   '/',
   // async (req: Request, res: Response, next: NextFunction) => {
   //   // Check if authorId query parameter was supplied
@@ -60,26 +61,27 @@ router.get(
     //ADD QUERY CHECK gor nest id is not undefined
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
     const authorBookMarks = await BookMarkCollection.findAllByUserId(userId);
-    const response = authorBookMarks.map(util.constructBookMarkResponse);
+    // const response = authorBookMarks.map(util.constructBookMarkResponse);
+    // console.log("got bookmakrs", authorBookMarks)
+    const freets = await Promise.all(authorBookMarks.map(item => FreetCollection.findOne(item.originalFreet._id)));
+    // console.log("got equivalent freets in router", freets)
+    const response = freets.map(freetutil.constructFreetResponse);
+    // console.log("constructed response new one", response)
     res.status(200).json(response);
   },
-  [
-    // ADD CHECK FOR IS VALID BOOKMARK NEST
-  ],
-  // Function
 );
 
 
 /**
- * Create a new bookmark (in an already existing nest).
+ * Create a new bookmark.
  *
-//  * @name POST /api/bookmarknests/{:bookmarknestId}/bookmarks
  * @name POST /api/bookmarks
+ *
  * @param {string} freetid - The freet that the user is bookMarking
  * @return {BookMarkResponse} - The created bookmark
  * @throws {403} - If the user is not logged in
  * @throws {400} - If the user had already added a bookMark on the Freet
- * @throws{404} - If the freetid does not exist, bookmarknestId is invalid.
+ * @throws{404} - If the freetid does not exist.
  */
 router.post(
   '/',
@@ -87,13 +89,10 @@ router.post(
     userValidator.isUserLoggedIn,
     bookmarkValidator.isValidFreetId,
     bookmarkValidator.isUserAlreadyBookMarking,
-    // bookmarknestValidator.isBookMarkNestExists,
-    bookmarkValidator.isValidBookMarkNestId,
   ],
   async (req: Request, res: Response) => {
-    console.log("got to posting in router", req.body.bookmarknestid, req)
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
-    const bookmark = await BookMarkCollection.addOne(userId, req.body.bookmarknestid, req.body.freetid);
+    const bookmark = await BookMarkCollection.addOne(userId, req.body.freetid);
 
     res.status(201).json({
       message: 'Your bookmark was created successfully.',
@@ -101,39 +100,6 @@ router.post(
     });
   }
 );
-
-
-// /** IMPLEMENTED IN BOOKMARKNEST
-//  * Create a new bookmark in a new nest
-//  *
-//  * @name POST /api/bookmarknests/{:nestname}/bookmarks
-//  *
-//  * @param {string} freetid - The freet that the user is bookMarking
-//  * @return {BookMarkResponse} - The created bookmark
-//  * @throws {403} - If the user is not logged in
-//  * @throws {400} - If the user had already added a bookMark on the Freet
-//  * @throws{404} - If the freetid does not exist.
-//  */
-//  router.post(
-//   '/',
-//   [
-//     userValidator.isUserLoggedIn,
-//     bookmarkValidator.isValidFreetId,
-//     bookmarkValidator.isUserAlreadyBookMarking,
-//     bookmarknestValidator.isValidNestname,
-//   ],
-//   async (req: Request, res: Response) => {
-//     console.log("got to posting in router with nestname", req.body.nestname)
-//     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
-//     const bookmarknest = await BookMarkNestCollection.addOne(userId, req.body.nestname);
-//     const bookmark = await BookMarkCollection.addOne(userId, bookmarknest._id, req.body.freetid);
-
-//     res.status(201).json({
-//       message: 'Your bookmark was created successfully.',
-//       bookmark: util.constructBookMarkResponse(bookmark)
-//     });
-//   }
-// );
 
 /**
  * Delete a bookmark
@@ -160,15 +126,16 @@ router.post(
 //     });
 //   }
 // );
-
 router.delete(
   '/:freetId?',
   [
     userValidator.isUserLoggedIn,
     bookmarkValidator.isBookMarkExists,
-    bookmarkValidator.isValidBookMarkModifier
+    // bookmarkValidator.isValidBookMarkModifier
+    freetValidator.isFreetExists,
   ],
   async (req: Request, res: Response) => {
+    // await BookMarkCollection.deleteOne(req.params.bookmarkId);
     const userId = (req.session.userId as string) ?? '';
     await BookMarkCollection.deleteOnebyFreetID(req.params.freetId, userId);
     // await BookMarkCollection.deleteManybyExpiration();

@@ -3,7 +3,7 @@ import {Types} from 'mongoose';
 import BookMarkCollection from './collection';
 import FreetCollection from '../freet/collection';
 import UserCollection from '../user/collection';
-import BookMarkNestCollection from '../bookmarknest/collection';
+
 /**
  * Checks if a bookmark with bookmarkId is req.params exists
  */
@@ -46,24 +46,10 @@ const isValidFreetId = async (req: Request, res: Response, next: NextFunction) =
   if (!freet) {
     res.status(404).json({
       error: `Freet with freet ID ${req.body.freetid} does not exist.`
+    
     });
     return;
   };
-  next();
-};
-
-/**
- * Checks if a bookmarknest with bookmarknestId is req.body exists
- */
- const isValidBookMarkNestId = async (req: Request, res: Response, next: NextFunction) => {
-  const validFormat = Types.ObjectId.isValid(req.body.bookmarknestid);
-  const bookmarknest = validFormat ? await BookMarkNestCollection.findOne(req.body.bookmarknestid) : '';
-  if (!bookmarknest) {
-    res.status(404).json({
-      error: `BookMarkNest with bookmarknest ID ${req.body.bookmarknestid} does not exist.`
-    });
-    return;
-  }
   next();
 };
 
@@ -84,22 +70,21 @@ const isValidBookMarkModifier = async (req: Request, res: Response, next: NextFu
 };
 
 const isValidBookMarkViewer = async (req: Request, res: Response, next: NextFunction) => {
-    const author = await UserCollection.findOneByUsername(req.query.author as string);
-    if (req.session.userId !== author._id.toString()) {
-      res.status(403).json({
-        error: 'Cannot view other users\' bookmarks.'
-      });
-      return;
-    }
-  
-    next();
-  };
+  const author = await UserCollection.findOneByUsername(req.query.author as string);
+  if (req.session.userId !== author._id.toString()) {
+    res.status(403).json({
+      error: 'Cannot view other users\' bookmarks.'
+    });
+    return;
+  }
+
+  next();
+};
 
 export {
   isValidFreetId,
   isBookMarkExists,
   isValidBookMarkModifier,
   isUserAlreadyBookMarking,
-  isValidBookMarkViewer,
-  isValidBookMarkNestId,
+  isValidBookMarkViewer
 };

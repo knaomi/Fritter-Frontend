@@ -12,45 +12,47 @@
     </div>
 
     <div class="middle">
+    <menu> 
       <li> 
         <router-link to="/refreets">
-          ReFreets
+          <button>ReFreets </button>
         </router-link>
       </li>
 
       <li>
         <router-link to="/likes">
-          Likes
+          <button> Likes </button>
         </router-link>
       </li>
       <li>
         <router-link to="/downfreets">
-          DownFreets
+          <button>DownFreets</button>
         </router-link>
       </li>
   
-      <li>
+      <!-- <li>
         <router-link to="/bookmarks">
           BookMarks
         </router-link>
-      </li>
+      </li> -->
 
       <li>
         <router-link to="/freetdrafts">
-          FreetDrafts
+          <button> FreetDrafts </button>
         </router-link>
       </li>
+    </menu>
     </div>
 
     <div class="right">
       <router-link to="/">
-        Home
+        <button> Home </button> 
       </router-link>
       <router-link
         v-if="$store.state.username"
         to="/account"
       >
-        Account
+       <button>  Account </button> 
       </router-link>
       <router-link
         v-else
@@ -74,7 +76,8 @@
 <style scoped>
 nav {
     padding: 1vw 2vw;
-    background-color: #ccc;
+    /* background-color: #ccc; */
+    background-color:peachpuff;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -94,9 +97,17 @@ img {
 	display: flex;
 	align-items: center;
 }
+.middle menu {
+	/* display: flex; */
+  list-style-type:none;
+  display: flex;
+	align-items: center;
+  gap: 14px;
+  font-size: 30px;
+}
 
 .right {
-    font-size: 20px;
+    font-size: 25px;
     display: grid;
     gap: 16px;
     grid-auto-flow: column;

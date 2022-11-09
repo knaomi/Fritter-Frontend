@@ -207,5 +207,8 @@ export default {
     border: 1px solid #111;
     padding: 20px;
     position: relative;
+    height:20%;
+   
+    /* background: lightgoldenrodyellow; */
 }
 </style>
